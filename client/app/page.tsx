@@ -66,7 +66,7 @@ function useCouriers() {
   return useQuery<Courier[]>({
     queryKey: ["couriers"],
     queryFn: async () => {
-      const res = await fetch("/api/couriers");
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/couriers`);
       return res.json();
     },
   });
@@ -77,7 +77,7 @@ function useTracking(courier: string, awb: string) {
     queryKey: ["tracking", courier, awb],
     queryFn: async () => {
       if (!courier || !awb) return null;
-      const res = await fetch(`/api/track?courier=${courier}&awb=${awb}`);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/track?courier=${courier}&awb=${awb}`);
       const data: ApiResponse = await res.json();
 
       if (res.status === 522) {
