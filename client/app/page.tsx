@@ -1,118 +1,137 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { useQuery, keepPreviousData } from '@tanstack/react-query'
-import { Search, Package, Truck, MapPin, Clock } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
+import { useState } from "react";
+import { useQuery, keepPreviousData } from "@tanstack/react-query";
+import { Search, Package, Truck, MapPin, Clock } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
+} from "@/components/ui/select";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card'
+} from "@/components/ui/card";
 
 interface Courier {
-  code: string
-  description: string
+  code: string;
+  description: string;
+}
+
+interface TrackingSummary {
+  awb: string;
+  courier: string;
+  status: string;
+  date: string;
+}
+
+interface TrackingDetail {
+  origin: string;
+  destination: string;
+  shipper: string;
+  receiver: string;
 }
 
 interface TrackingEvent {
-  date: string
-  time: string
-  desc: string
-  location: string
+  date: string;
+  desc: string;
+  location: string;
 }
 
 interface TrackingData {
-  status: string
-  courier: string
-  awb: string
-  shipper: string
-  receiver: string
-  origin: string
-  destination: string
-  history: TrackingEvent[]
+  summary: TrackingSummary;
+  detail: TrackingDetail;
+  history: TrackingEvent[];
 }
 
 interface ApiResponse {
-  status: number
+  status: number;
   data?: {
-    status: string
-    courier: string
-    awb: string
-    shipper?: string
-    receiver?: string
-    origin?: string
-    destination?: string
-    history: TrackingEvent[]
-  }
-  message?: string
+    summary: TrackingSummary;
+    detail: TrackingDetail;
+    history: TrackingEvent[];
+  };
+  message?: string;
+  error?: string;
 }
 
 function useCouriers() {
   return useQuery<Courier[]>({
-    queryKey: ['couriers'],
+    queryKey: ["couriers"],
     queryFn: async () => {
-      const res = await fetch('/api/couriers')
-      return res.json()
+      const res = await fetch("/api/couriers");
+      return res.json();
     },
-  })
+  });
 }
 
 function useTracking(courier: string, awb: string) {
   return useQuery<TrackingData | null>({
-    queryKey: ['tracking', courier, awb],
+    queryKey: ["tracking", courier, awb],
     queryFn: async () => {
-      if (!courier || !awb) return null
-      const res = await fetch(`/api/track?courier=${courier}&awb=${awb}`)
-      const data: ApiResponse = await res.json()
-      if (data.status === 200 && data.data) {
-        return {
-          status: data.data.status,
-          courier: data.data.courier,
-          awb: data.data.awb,
-          shipper: data.data.shipper || '-',
-          receiver: data.data.receiver || '-',
-          origin: data.data.origin || '-',
-          destination: data.data.destination || '-',
-          history: data.data.history || [],
-        }
+      if (!courier || !awb) return null;
+      const res = await fetch(`/api/track?courier=${courier}&awb=${awb}`);
+      const data: ApiResponse = await res.json();
+
+      if (res.status === 522) {
+        throw new Error("Layanan sedang gangguan, coba lagi nanti");
       }
-      throw new Error(data.message || 'Tracking data not found')
+      if (res.status === 404) {
+        throw new Error("Nomor resi tidak ditemukan");
+      }
+      if (res.status === 401) {
+        throw new Error("Konfigurasi API tidak valid");
+      }
+      if (res.status === 422) {
+        throw new Error("Kurir tidak valid");
+      }
+      if (!res.ok || data.status !== 200) {
+        throw new Error(data.message || "Gagal mengambil data");
+      }
+      if (data.data) {
+        return {
+          summary: data.data.summary,
+          detail: data.data.detail,
+          history: data.data.history || [],
+        };
+      }
+      throw new Error(data.message || "Tracking data not found");
     },
     enabled: false,
     placeholderData: keepPreviousData,
-  })
+  });
 }
 
 export default function Home() {
-  const [awbNumber, setAwbNumber] = useState('')
-  const [selectedCourier, setSelectedCourier] = useState('')
-  const [trackKey, setTrackKey] = useState(0)
+  const [awbNumber, setAwbNumber] = useState("");
+  const [selectedCourier, setSelectedCourier] = useState("");
 
-  const { data: couriers = [], isLoading: couriersLoading } = useCouriers()
-  const { data: trackingData, isLoading: trackingLoading, error, dataUpdatedAt } = useTracking(selectedCourier, awbNumber)
+  const { data: couriers = [], isLoading: couriersLoading } = useCouriers();
+  const {
+    data: trackingData,
+    isLoading: trackingLoading,
+    error,
+    refetch,
+  } = useTracking(selectedCourier, awbNumber);
 
   const handleTrack = () => {
     if (awbNumber && selectedCourier) {
-      setTrackKey((k) => k + 1)
+      refetch();
     }
-  }
+  };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      handleTrack()
+    if (e.key === "Enter") {
+      handleTrack();
     }
-  }
+  };
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 py-12 px-4">
@@ -140,9 +159,14 @@ export default function Home() {
                 onKeyDown={handleKeyPress}
                 className="flex-1"
               />
-              <Select value={selectedCourier} onValueChange={setSelectedCourier}>
+              <Select
+                value={selectedCourier}
+                onValueChange={setSelectedCourier}
+              >
                 <SelectTrigger className="w-full sm:w-[200px]">
-                  <SelectValue placeholder={couriersLoading ? 'Loading...' : 'Pilih kurir'} />
+                  <SelectValue
+                    placeholder={couriersLoading ? "Loading..." : "Pilih kurir"}
+                  />
                 </SelectTrigger>
                 <SelectContent>
                   {couriers.map((courier) => (
@@ -155,11 +179,16 @@ export default function Home() {
             </div>
             <Button
               onClick={handleTrack}
-              disabled={trackingLoading || couriersLoading || !awbNumber || !selectedCourier}
+              disabled={
+                trackingLoading ||
+                couriersLoading ||
+                !awbNumber ||
+                !selectedCourier
+              }
               className="w-full"
             >
               {trackingLoading ? (
-                'Mencari...'
+                "Mencari..."
               ) : (
                 <>
                   <Search className="mr-2 h-4 w-4" />
@@ -169,7 +198,7 @@ export default function Home() {
             </Button>
             {error && (
               <p className="text-sm text-red-500">
-                {error instanceof Error ? error.message : 'Terjadi kesalahan'}
+                {error instanceof Error ? error.message : "Terjadi kesalahan"}
               </p>
             )}
           </CardContent>
@@ -180,12 +209,13 @@ export default function Home() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Package className="h-5 w-5" />
-                {trackingData.courier.toUpperCase()} - {trackingData.awb}
+                {trackingData.summary.courier.toUpperCase()} -{" "}
+                {trackingData.summary.awb}
               </CardTitle>
               <CardDescription>
-                Status:{' '}
+                Status:{" "}
                 <span className="font-medium text-green-600">
-                  {trackingData.status}
+                  {trackingData.summary.status}
                 </span>
               </CardDescription>
             </CardHeader>
@@ -195,18 +225,22 @@ export default function Home() {
                   <p className="text-sm text-muted-foreground flex items-center gap-1">
                     <MapPin className="h-3 w-3" /> Pengirim
                   </p>
-                  <p className="font-medium">{trackingData.shipper}</p>
+                  <p className="font-medium">
+                    {trackingData.detail.shipper || "-"}
+                  </p>
                   <p className="text-sm text-muted-foreground">
-                    {trackingData.origin}
+                    {trackingData.detail.origin || "-"}
                   </p>
                 </div>
                 <div className="space-y-1">
                   <p className="text-sm text-muted-foreground flex items-center gap-1">
                     <MapPin className="h-3 w-3" /> Penerima
                   </p>
-                  <p className="font-medium">{trackingData.receiver}</p>
+                  <p className="font-medium">
+                    {trackingData.detail.receiver || "-"}
+                  </p>
                   <p className="text-sm text-muted-foreground">
-                    {trackingData.destination}
+                    {trackingData.detail.destination || "-"}
                   </p>
                 </div>
               </div>
@@ -231,7 +265,7 @@ export default function Home() {
                         <div className="flex-1 space-y-1 pb-4">
                           <p className="font-medium text-sm">{event.desc}</p>
                           <p className="text-xs text-muted-foreground">
-                            {event.date} {event.time}
+                            {event.date}
                           </p>
                           {event.location && (
                             <p className="text-xs text-muted-foreground flex items-center gap-1">
@@ -254,5 +288,5 @@ export default function Home() {
         )}
       </div>
     </main>
-  )
+  );
 }
