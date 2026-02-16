@@ -57,7 +57,7 @@ export class BiteShipService {
       const errorData = (await response.json()) as Record<string, any>;
       throw {
         status: response.status,
-        message: errorData.message || 'BiteShip request failed',
+        message: errorData.error,
       } as ApiError;
     }
 

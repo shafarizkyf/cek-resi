@@ -37,10 +37,17 @@ export class BinderByteService {
     const response = await fetch(url);
 
     if (!response.ok) {
-      const errorData = (await response.json()) as Record<string, any>;
+      let errorData;
+      try {
+        errorData = (await response.json()) as Record<string, any>;
+      } catch (error) {
+        errorData = {
+          message: 'Unknown Error'
+        }
+      }
       throw {
         status: response.status,
-        message: errorData.message || 'BinderByte request failed',
+        message: errorData.message,
       } as ApiError;
     }
 
