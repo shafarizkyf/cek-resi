@@ -1,0 +1,1558 @@
+{
+    "success": true,
+    "object": "courier",
+    "couriers": [
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "Gojek",
+            "courier_code": "gojek",
+            "courier_service_name": "Instant",
+            "courier_service_code": "instant",
+            "tier": "premium",
+            "description": "On Demand Instant (bike)",
+            "service_type": "same_day",
+            "shipping_type": "parcel",
+            "shipment_duration_range": "1 - 3",
+            "shipment_duration_unit": "hours"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "Gojek",
+            "courier_code": "gojek",
+            "courier_service_name": "Same Day",
+            "courier_service_code": "same_day",
+            "tier": "premium",
+            "description": "On Demand within 8 hours (bike)",
+            "service_type": "same_day",
+            "shipping_type": "parcel",
+            "shipment_duration_range": "6 - 8",
+            "shipment_duration_unit": "hours"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "Grab",
+            "courier_code": "grab",
+            "courier_service_name": "Instant",
+            "courier_service_code": "instant",
+            "tier": "premium",
+            "description": "On Demand Instant (bike)",
+            "service_type": "same_day",
+            "shipping_type": "parcel",
+            "shipment_duration_range": "1 - 3",
+            "shipment_duration_unit": "hours"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "Grab",
+            "courier_code": "grab",
+            "courier_service_name": "Same Day",
+            "courier_service_code": "same_day",
+            "tier": "premium",
+            "description": "On Demand within 8 hours (bike)",
+            "service_type": "same_day",
+            "shipping_type": "parcel",
+            "shipment_duration_range": "6 - 8",
+            "shipment_duration_unit": "hours"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "Grab",
+            "courier_code": "grab",
+            "courier_service_name": "Instant Car",
+            "courier_service_code": "instant_car",
+            "tier": "premium",
+            "description": "Grab Car Express",
+            "service_type": "same_day",
+            "shipping_type": "parcel",
+            "shipment_duration_range": "1 - 3",
+            "shipment_duration_unit": "hours"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": true,
+            "available_for_proof_of_delivery": true,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "Deliveree",
+            "courier_code": "deliveree",
+            "courier_service_name": "Tronton Wing Box",
+            "courier_service_code": "tronton_wing_box",
+            "tier": "premium",
+            "description": "Tronton Wing Box",
+            "service_type": "same_day",
+            "shipping_type": "freight",
+            "shipment_duration_range": "6 - 8",
+            "shipment_duration_unit": "hours"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": true,
+            "available_for_proof_of_delivery": true,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "Deliveree",
+            "courier_code": "deliveree",
+            "courier_service_name": "Tronton Box",
+            "courier_service_code": "tronton_box",
+            "tier": "premium",
+            "description": "Tronton Box",
+            "service_type": "same_day",
+            "shipping_type": "freight",
+            "shipment_duration_range": "6 - 8",
+            "shipment_duration_unit": "hours"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": true,
+            "available_for_proof_of_delivery": true,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "Deliveree",
+            "courier_code": "deliveree",
+            "courier_service_name": "Fuso Heavy",
+            "courier_service_code": "fuso_heavy",
+            "tier": "premium",
+            "description": "Fuso Heavy",
+            "service_type": "same_day",
+            "shipping_type": "freight",
+            "shipment_duration_range": "6 - 8",
+            "shipment_duration_unit": "hours"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": true,
+            "available_for_proof_of_delivery": true,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "Deliveree",
+            "courier_code": "deliveree",
+            "courier_service_name": "Fuso Lite",
+            "courier_service_code": "fuso_light",
+            "tier": "premium",
+            "description": "Fuso Lite",
+            "service_type": "same_day",
+            "shipping_type": "freight",
+            "shipment_duration_range": "6 - 8",
+            "shipment_duration_unit": "hours"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": true,
+            "available_for_proof_of_delivery": true,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "Deliveree",
+            "courier_code": "deliveree",
+            "courier_service_name": "CDD Box",
+            "courier_service_code": "cdd_box",
+            "tier": "premium",
+            "description": "CDD Box",
+            "service_type": "same_day",
+            "shipping_type": "freight",
+            "shipment_duration_range": "6 - 8",
+            "shipment_duration_unit": "hours"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": true,
+            "available_for_proof_of_delivery": true,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "Deliveree",
+            "courier_code": "deliveree",
+            "courier_service_name": "CDD Pickup",
+            "courier_service_code": "cdd_pickup",
+            "tier": "premium",
+            "description": "CDD Pickup",
+            "service_type": "same_day",
+            "shipping_type": "freight",
+            "shipment_duration_range": "6 - 8",
+            "shipment_duration_unit": "hours"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": true,
+            "available_for_proof_of_delivery": true,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "Deliveree",
+            "courier_code": "deliveree",
+            "courier_service_name": "CDE - Frozen",
+            "courier_service_code": "cde_frozen",
+            "tier": "premium",
+            "description": "CDE - Frozen",
+            "service_type": "same_day",
+            "shipping_type": "freight",
+            "shipment_duration_range": "6 - 8",
+            "shipment_duration_unit": "hours"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": true,
+            "available_for_proof_of_delivery": true,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "Deliveree",
+            "courier_code": "deliveree",
+            "courier_service_name": "CDE - Flammable",
+            "courier_service_code": "cde_flammable",
+            "tier": "premium",
+            "description": "CDE - Flammable",
+            "service_type": "same_day",
+            "shipping_type": "freight",
+            "shipment_duration_range": "6 - 8",
+            "shipment_duration_unit": "hours"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": true,
+            "available_for_proof_of_delivery": true,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "Deliveree",
+            "courier_code": "deliveree",
+            "courier_service_name": "CDE - Chemical",
+            "courier_service_code": "cde_chemical",
+            "tier": "premium",
+            "description": "CDE - Chemical",
+            "service_type": "same_day",
+            "shipping_type": "freight",
+            "shipment_duration_range": "6 - 8",
+            "shipment_duration_unit": "hours"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": true,
+            "available_for_proof_of_delivery": true,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "Deliveree",
+            "courier_code": "deliveree",
+            "courier_service_name": "Engkel Box",
+            "courier_service_code": "engkel_box",
+            "tier": "premium",
+            "description": "Engkel Box",
+            "service_type": "same_day",
+            "shipping_type": "freight",
+            "shipment_duration_range": "6 - 8",
+            "shipment_duration_unit": "hours"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": true,
+            "available_for_proof_of_delivery": true,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "Deliveree",
+            "courier_code": "deliveree",
+            "courier_service_name": "Engkel Pickup",
+            "courier_service_code": "engkel_pickup",
+            "tier": "premium",
+            "description": "Engkel Pickup",
+            "service_type": "same_day",
+            "shipping_type": "freight",
+            "shipment_duration_range": "2 - 4",
+            "shipment_duration_unit": "hours"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": true,
+            "available_for_proof_of_delivery": true,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "Deliveree",
+            "courier_code": "deliveree",
+            "courier_service_name": "Small Box",
+            "courier_service_code": "small_box",
+            "tier": "premium",
+            "description": "Small Box",
+            "service_type": "same_day",
+            "shipping_type": "freight",
+            "shipment_duration_range": "2 - 4",
+            "shipment_duration_unit": "hours"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": true,
+            "available_for_proof_of_delivery": true,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "Deliveree",
+            "courier_code": "deliveree",
+            "courier_service_name": "Small Pickup",
+            "courier_service_code": "small_pickup",
+            "tier": "standard",
+            "description": "Small Pickup",
+            "service_type": "same_day",
+            "shipping_type": "parcel",
+            "shipment_duration_range": "2 - 4",
+            "shipment_duration_unit": "hours"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": true,
+            "available_for_proof_of_delivery": true,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "Deliveree",
+            "courier_code": "deliveree",
+            "courier_service_name": "Van",
+            "courier_service_code": "van",
+            "tier": "standard",
+            "description": "Van",
+            "service_type": "same_day",
+            "shipping_type": "parcel",
+            "shipment_duration_range": "2 - 4",
+            "shipment_duration_unit": "hours"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": true,
+            "available_for_proof_of_delivery": true,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "Deliveree",
+            "courier_code": "deliveree",
+            "courier_service_name": "Economy",
+            "courier_service_code": "economy",
+            "tier": "standard",
+            "description": "Economy",
+            "service_type": "same_day",
+            "shipping_type": "parcel",
+            "shipment_duration_range": "2 - 4",
+            "shipment_duration_unit": "hours"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "JNE",
+            "courier_code": "jne",
+            "courier_service_name": "Reguler",
+            "courier_service_code": "reg",
+            "tier": "free",
+            "description": "Regular service",
+            "service_type": "standard",
+            "shipping_type": "parcel",
+            "shipment_duration_range": "2 - 3",
+            "shipment_duration_unit": "days"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "JNE",
+            "courier_code": "jne",
+            "courier_service_name": "YES",
+            "courier_service_code": "yes",
+            "tier": "essentials",
+            "description": "Express, next day",
+            "service_type": "overnight",
+            "shipping_type": "parcel",
+            "shipment_duration_range": "1",
+            "shipment_duration_unit": "days"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "JNE",
+            "courier_code": "jne",
+            "courier_service_name": "OKE",
+            "courier_service_code": "oke",
+            "tier": "free",
+            "description": "Economy servive",
+            "service_type": "standard",
+            "shipping_type": "parcel",
+            "shipment_duration_range": "3 - 4",
+            "shipment_duration_unit": "days"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "JNE",
+            "courier_code": "jne",
+            "courier_service_name": "JTR",
+            "courier_service_code": "jtr",
+            "tier": "premium",
+            "description": "Trucking with minimum weight of 10 kg",
+            "service_type": "standard",
+            "shipping_type": "freight",
+            "shipment_duration_range": "3 - 4",
+            "shipment_duration_unit": "days"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "JNE",
+            "courier_code": "jne",
+            "courier_service_name": "JTR 150 250",
+            "courier_service_code": "jtr_150_250",
+            "tier": "premium",
+            "description": "Trucking for motorbike with 150cc to 250cc",
+            "service_type": "standard",
+            "shipping_type": "freight",
+            "shipment_duration_range": "3 - 4",
+            "shipment_duration_unit": "days"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "JNE",
+            "courier_code": "jne",
+            "courier_service_name": "JTR 150",
+            "courier_service_code": "jtr_150",
+            "tier": "premium",
+            "description": "Trucking for motorbike below 150cc",
+            "service_type": "standard",
+            "shipping_type": "freight",
+            "shipment_duration_range": "3 - 4",
+            "shipment_duration_unit": "days"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "JNE",
+            "courier_code": "jne",
+            "courier_service_name": "JTR 250",
+            "courier_service_code": "jtr_250",
+            "tier": "premium",
+            "description": "Trucking for motorbike above 250cc",
+            "service_type": "standard",
+            "shipping_type": "freight",
+            "shipment_duration_range": "3 - 4",
+            "shipment_duration_unit": "days"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": true,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "TIKI",
+            "courier_code": "tiki",
+            "courier_service_name": "EKO",
+            "courier_service_code": "eko",
+            "tier": "free",
+            "description": "Economic service",
+            "service_type": "standard",
+            "shipping_type": "parcel",
+            "shipment_duration_range": "3 - 4",
+            "shipment_duration_unit": "days"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": true,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "TIKI",
+            "courier_code": "tiki",
+            "courier_service_name": "SDS",
+            "courier_service_code": "sds",
+            "tier": "premium",
+            "description": "same day service",
+            "service_type": "same_day",
+            "shipping_type": "parcel",
+            "shipment_duration_range": "1",
+            "shipment_duration_unit": "days"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": true,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "TIKI",
+            "courier_code": "tiki",
+            "courier_service_name": "REG",
+            "courier_service_code": "reg",
+            "tier": "free",
+            "description": "Layanan reguler",
+            "service_type": "standard",
+            "shipping_type": "parcel",
+            "shipment_duration_range": "2 - 3",
+            "shipment_duration_unit": "days"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": true,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "TIKI",
+            "courier_code": "tiki",
+            "courier_service_name": "ONS",
+            "courier_service_code": "ons",
+            "tier": "essentials",
+            "description": "One night service",
+            "service_type": "overnight",
+            "shipping_type": "parcel",
+            "shipment_duration_range": "1",
+            "shipment_duration_unit": "days"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": true,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "TIKI",
+            "courier_code": "tiki",
+            "courier_service_name": "T15",
+            "courier_service_code": "t15",
+            "tier": "premium",
+            "description": "Motor di bawah 150CC",
+            "service_type": "standard",
+            "shipping_type": "freight",
+            "shipment_duration_range": "3 - 4",
+            "shipment_duration_unit": "days"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": true,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "TIKI",
+            "courier_code": "tiki",
+            "courier_service_name": "T25",
+            "courier_service_code": "t25",
+            "tier": "premium",
+            "description": "Motor di bawah 250CC",
+            "service_type": "standard",
+            "shipping_type": "freight",
+            "shipment_duration_range": "3 - 4",
+            "shipment_duration_unit": "days"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": true,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "TIKI",
+            "courier_code": "tiki",
+            "courier_service_name": "T60",
+            "courier_service_code": "t60",
+            "tier": "premium",
+            "description": "Motor di bawah 600CC",
+            "service_type": "standard",
+            "shipping_type": "freight",
+            "shipment_duration_range": "3 - 4",
+            "shipment_duration_unit": "days"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": true,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "TIKI",
+            "courier_code": "tiki",
+            "courier_service_name": "Trucking",
+            "courier_service_code": "trc",
+            "tier": "premium",
+            "description": "TIKI Trucking",
+            "service_type": "standard",
+            "shipping_type": "freight",
+            "shipment_duration_range": "3 - 4",
+            "shipment_duration_unit": "days"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": false,
+            "courier_name": "Ninja",
+            "courier_code": "ninja",
+            "courier_service_name": "Standard",
+            "courier_service_code": "standard",
+            "tier": "free",
+            "description": "Layanan standard",
+            "service_type": "standard",
+            "shipping_type": "parcel",
+            "shipment_duration_range": "2 - 3",
+            "shipment_duration_unit": "days"
+        },
+        {
+            "available_collection_method": [
+                "pickup",
+                "dropoff"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": false,
+            "courier_name": "Lion",
+            "courier_code": "lion",
+            "courier_service_code": "reg_pack",
+            "courier_service_name": "Reg Pack",
+            "description": "Layanan standard",
+            "service_type": "standard",
+            "shipping_type": "parcel",
+            "shipment_duration_range": "2 - 3",
+            "shipment_duration_unit": "days"
+        },
+        {
+            "available_collection_method": [
+                "pickup",
+                "dropoff"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": false,
+            "courier_name": "Lion",
+            "courier_code": "lion",
+            "courier_service_code": "big_pack",
+            "courier_service_name": "Big Pack",
+            "description": "Layanan pengiriman kargo min 10 kg",
+            "service_type": "standard",
+            "shipping_type": "freight",
+            "shipment_duration_range": "1 - 4",
+            "shipment_duration_unit": "days"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "SiCepat",
+            "courier_code": "sicepat",
+            "courier_service_name": "Reguler",
+            "courier_service_code": "reg",
+            "tier": "free",
+            "description": "Layanan reguler",
+            "service_type": "standard",
+            "shipping_type": "parcel",
+            "shipment_duration_range": "2 - 3",
+            "shipment_duration_unit": "days"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "SiCepat",
+            "courier_code": "sicepat",
+            "courier_service_name": "Best",
+            "courier_service_code": "best",
+            "tier": "essentials",
+            "description": "Besok sampai tujuan",
+            "service_type": "overnight",
+            "shipping_type": "parcel",
+            "shipment_duration_range": "1",
+            "shipment_duration_unit": "days"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "SiCepat",
+            "courier_code": "sicepat",
+            "courier_service_name": "SDS",
+            "courier_service_code": "sds",
+            "tier": "standard",
+            "description": "Same day service",
+            "service_type": "same_day",
+            "shipping_type": "parcel",
+            "shipment_duration_range": "1",
+            "shipment_duration_unit": "days"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "SiCepat",
+            "courier_code": "sicepat",
+            "courier_service_name": "GOKIL",
+            "courier_service_code": "gokil",
+            "tier": "premium",
+            "description": "Layanan kargo",
+            "service_type": "standard",
+            "shipping_type": "freight",
+            "shipment_duration_range": "3 - 4",
+            "shipment_duration_unit": "days"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "Sentral Cargo",
+            "courier_code": "sentralcargo",
+            "courier_service_name": "Land Electronic",
+            "courier_service_code": "land_electronic",
+            "tier": "free",
+            "description": "Layanan Elektronik via Darat",
+            "service_type": "standard",
+            "shipping_type": "freight",
+            "shipment_duration_range": "3 - 4",
+            "shipment_duration_unit": "days"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "Sentral Cargo",
+            "courier_code": "sentralcargo",
+            "courier_service_name": "Lan Non Electronic",
+            "courier_service_code": "land_non_electronic",
+            "tier": "premium",
+            "description": "Layanan Non-Elektronik via Darat",
+            "service_type": "same_day",
+            "shipping_type": "freight",
+            "shipment_duration_range": "3 - 4",
+            "shipment_duration_unit": "days"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "Sentral Cargo",
+            "courier_code": "sentralcargo",
+            "courier_service_name": "Air Electronic",
+            "courier_service_code": "air_electronic",
+            "tier": "premium",
+            "description": "Layanan Elektronik via Udara",
+            "service_type": "standard",
+            "shipping_type": "freight",
+            "shipment_duration_range": "1 - 2",
+            "shipment_duration_unit": "days"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "Sentral Cargo",
+            "courier_code": "sentralcargo",
+            "courier_service_name": "Air Non Electronic",
+            "courier_service_code": "air_non_electronic",
+            "tier": "premium",
+            "description": "Layanan Non-Elektronik via Udara",
+            "service_type": "standard",
+            "shipping_type": "freight",
+            "shipment_duration_range": "1 - 2",
+            "shipment_duration_unit": "days"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "J&T",
+            "courier_code": "jnt",
+            "courier_service_name": "EZ",
+            "courier_service_code": "ez",
+            "tier": "free",
+            "description": "Layanan reguler",
+            "service_type": "standard",
+            "shipping_type": "parcel",
+            "shipment_duration_range": "2 - 3",
+            "shipment_duration_unit": "days"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "IDexpress",
+            "courier_code": "idexpress",
+            "courier_service_name": "Reguler Half Kilo",
+            "courier_service_code": "reg_half_kilo",
+            "tier": "free",
+            "description": "Layanan reguler half kilo",
+            "service_type": "standard",
+            "shipping_type": "parcel",
+            "shipment_duration_range": "2 - 3",
+            "shipment_duration_unit": "days"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "IDexpress",
+            "courier_code": "idexpress",
+            "courier_service_name": "Reguler",
+            "courier_service_code": "reg",
+            "tier": "free",
+            "description": "Layanan reguler",
+            "service_type": "standard",
+            "shipping_type": "parcel",
+            "shipment_duration_range": "2 - 3",
+            "shipment_duration_unit": "days"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "IDexpress",
+            "courier_code": "idexpress",
+            "courier_service_name": "Same Day",
+            "courier_service_code": "smd",
+            "tier": "premium",
+            "description": "Layanan Same Day",
+            "service_type": "same_day",
+            "shipping_type": "parcel",
+            "shipment_duration_range": "12",
+            "shipment_duration_unit": "hours"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "IDexpress",
+            "courier_code": "idexpress",
+            "courier_service_name": "ID Truck",
+            "courier_service_code": "idtruck",
+            "tier": "premium",
+            "description": "Layanan Trucking",
+            "service_type": "standard",
+            "shipping_type": "freight",
+            "shipment_duration_range": "3 - 4",
+            "shipment_duration_unit": "days"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": false,
+            "courier_name": "RPX",
+            "courier_code": "rpx",
+            "courier_service_name": "Same Day Package",
+            "courier_service_code": "sdp",
+            "tier": "standard",
+            "description": "Layanan sampai di hari yang sama.",
+            "service_type": "same_day",
+            "shipping_type": "parcel",
+            "shipment_duration_range": "12",
+            "shipment_duration_unit": "hours"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": false,
+            "courier_name": "RPX",
+            "courier_code": "rpx",
+            "courier_service_name": "Mid Day Package",
+            "courier_service_code": "mdp",
+            "tier": "premium",
+            "description": "Layanan tiba sebelum jam 12 siang esoknya",
+            "service_type": "overnight",
+            "shipping_type": "parcel",
+            "shipment_duration_range": "1",
+            "shipment_duration_unit": "days"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": false,
+            "courier_name": "RPX",
+            "courier_code": "rpx",
+            "courier_service_name": "Next Day Package",
+            "courier_service_code": "ndp",
+            "tier": "essentials",
+            "description": "Layanan sampai 1 hari kerja. ",
+            "service_type": "overnight",
+            "shipping_type": "parcel",
+            "shipment_duration_range": "1",
+            "shipment_duration_unit": "days"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": false,
+            "courier_name": "RPX",
+            "courier_code": "rpx",
+            "courier_service_name": "Reguler Package",
+            "courier_service_code": "rgp",
+            "tier": "free",
+            "description": "Pengiriman standard",
+            "service_type": "standard",
+            "shipping_type": "parcel",
+            "shipment_duration_range": "2 - 4",
+            "shipment_duration_unit": "days"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": false,
+            "courier_name": "RPX",
+            "courier_code": "rpx",
+            "courier_service_name": "Paket Ambil Suka-suka",
+            "courier_service_code": "pas",
+            "tier": "free",
+            "description": "Pengambilan barang mandiri di lokasi mitra RPX",
+            "service_type": "standard",
+            "shipping_type": "parcel",
+            "shipment_duration_range": "2 - 4",
+            "shipment_duration_unit": "days"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": false,
+            "courier_name": "RPX",
+            "courier_code": "rpx",
+            "courier_service_name": "Economy Delivery",
+            "courier_service_code": "ecp",
+            "tier": "free",
+            "description": "Kirim paket >10 kg dengan biaya hemat",
+            "service_type": "standard",
+            "shipping_type": "parcel",
+            "shipment_duration_range": "2 - 4",
+            "shipment_duration_unit": "days"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": false,
+            "courier_name": "RPX",
+            "courier_code": "rpx",
+            "courier_service_name": "Heavy Weight Delivery",
+            "courier_service_code": "hwp",
+            "tier": "free",
+            "description": "Kirim paket >20 kg dengan biaya hemat",
+            "service_type": "standard",
+            "shipping_type": "parcel",
+            "shipment_duration_range": "3 - 4",
+            "shipment_duration_unit": "days"
+        },
+        {
+            "available_collection_method": [
+                "drop_off"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": false,
+            "courier_name": "Wahana",
+            "courier_code": "wahana",
+            "courier_service_name": "Deno",
+            "courier_service_code": "deno",
+            "tier": "free",
+            "description": "Layanan standard",
+            "service_type": "standard",
+            "shipping_type": "parcel",
+            "shipment_duration_range": "2 - 3",
+            "shipment_duration_unit": "days"
+        },
+        {
+            "available_collection_method": [
+                "drop_off",
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": false,
+            "courier_name": "Pos Indonesia",
+            "courier_code": "pos",
+            "courier_service_name": "Pos Sameday",
+            "courier_service_code": "sameday",
+            "tier": "free",
+            "description": "Layanan Sameday",
+            "service_type": "standard",
+            "shipping_type": "parcel",
+            "shipment_duration_range": "1",
+            "shipment_duration_unit": "days"
+        },
+        {
+            "available_collection_method": [
+                "drop_off",
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": false,
+            "courier_name": "Pos Indonesia",
+            "courier_code": "pos",
+            "courier_service_name": "Pos Nextday",
+            "courier_service_code": "nextday",
+            "tier": "free",
+            "description": "Layanan Nextday",
+            "service_type": "standard",
+            "shipping_type": "parcel",
+            "shipment_duration_range": "1",
+            "shipment_duration_unit": "days"
+        },
+        {
+            "available_collection_method": [
+                "drop_off",
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": false,
+            "courier_name": "Pos Indonesia",
+            "courier_code": "pos",
+            "courier_service_name": "Pos Reguler",
+            "courier_service_code": "reg",
+            "tier": "free",
+            "description": "Layanan reguler",
+            "service_type": "standard",
+            "shipping_type": "parcel",
+            "shipment_duration_range": "1 - 3",
+            "shipment_duration_unit": "days"
+        },
+        {
+            "available_collection_method": [
+                "drop_off",
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": false,
+            "courier_name": "Pos Indonesia",
+            "courier_code": "pos",
+            "courier_service_name": "Pos Kargo",
+            "courier_service_code": "cargo",
+            "tier": "free",
+            "description": "Layanan Kargo",
+            "service_type": "standard",
+            "shipping_type": "parcel",
+            "shipment_duration_range": "1 - 3",
+            "shipment_duration_unit": "days"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "Anteraja",
+            "courier_code": "anteraja",
+            "courier_service_name": "Reguler",
+            "courier_service_code": "reg",
+            "tier": "free",
+            "description": "Regular shipment",
+            "service_type": "standard",
+            "shipping_type": "parcel",
+            "shipment_duration_range": "2 - 3",
+            "shipment_duration_unit": "days"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "Anteraja",
+            "courier_code": "anteraja",
+            "courier_service_name": "Same Day",
+            "courier_service_code": "same_day",
+            "tier": "standard",
+            "description": "Same day service for Jakarta Area",
+            "service_type": "same_day",
+            "shipping_type": "parcel",
+            "shipment_duration_range": "8 - 12",
+            "shipment_duration_unit": "hours"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "Anteraja",
+            "courier_code": "anteraja",
+            "courier_service_name": "Next Day",
+            "courier_service_code": "next_day",
+            "tier": "essentials",
+            "description": "Next day service delivery",
+            "service_type": "overnight",
+            "shipping_type": "parcel",
+            "shipment_duration_range": "1",
+            "shipment_duration_unit": "days"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "SAP",
+            "courier_code": "sap",
+            "courier_service_name": "REG",
+            "courier_service_code": "reg",
+            "tier": "free",
+            "description": "Regular service",
+            "service_type": "standard",
+            "shipping_type": "parcel",
+            "shipment_duration_range": "3 - 4",
+            "shipment_duration_unit": "days"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "SAP",
+            "courier_code": "sap",
+            "courier_service_name": "Reguler Half Kilo",
+            "courier_service_code": "reg_half_kilo",
+            "tier": "free",
+            "description": "Layanan reguler half kilo",
+            "service_type": "standard",
+            "shipping_type": "parcel",
+            "shipment_duration_range": "2 - 3",
+            "shipment_duration_unit": "days"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "SAP",
+            "courier_code": "sap",
+            "courier_service_name": "ODS",
+            "courier_service_code": "ods",
+            "tier": "essentials",
+            "description": "One Day Service",
+            "service_type": "overnight",
+            "shipping_type": "parcel",
+            "shipment_duration_range": "1",
+            "shipment_duration_unit": "days"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "SAP",
+            "courier_code": "sap",
+            "courier_service_name": "SDS",
+            "courier_service_code": "sds",
+            "tier": "standard",
+            "description": "Same Day Service",
+            "service_type": "same_day",
+            "shipping_type": "parcel",
+            "shipment_duration_range": "2 - 3",
+            "shipment_duration_unit": "days"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "SAP",
+            "courier_code": "sap",
+            "courier_service_name": "Cargo",
+            "courier_service_code": "cargo",
+            "tier": "premium",
+            "description": "Cargo Land Service",
+            "service_type": "standard",
+            "shipping_type": "freight",
+            "shipment_duration_range": "1",
+            "shipment_duration_unit": "days"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "Paxel",
+            "courier_code": "paxel",
+            "courier_service_name": "Small Package",
+            "courier_service_code": "small",
+            "tier": "standard",
+            "description": "Layanan paket small",
+            "service_type": "standard",
+            "shipping_type": "parcel",
+            "shipment_duration_range": "8 - 12",
+            "shipment_duration_unit": "hours"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "Paxel",
+            "courier_code": "paxel",
+            "courier_service_name": "Medium Package",
+            "courier_service_code": "medium",
+            "tier": "standard",
+            "description": "Layanan paket medium",
+            "service_type": "standard",
+            "shipping_type": "parcel",
+            "shipment_duration_range": "8 - 12",
+            "shipment_duration_unit": "hours"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "Paxel",
+            "courier_code": "paxel",
+            "courier_service_name": "Large Package",
+            "courier_service_code": "large",
+            "tier": "premium",
+            "description": "Layanan paket large",
+            "service_type": "standard",
+            "shipping_type": "parcel",
+            "shipment_duration_range": "8 - 12",
+            "shipment_duration_unit": "hours"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "Paxel",
+            "courier_code": "paxel",
+            "courier_service_name": "Paxel Big",
+            "courier_service_code": "paxel_big",
+            "tier": "premium",
+            "description": "Layanan kargo paxel big",
+            "service_type": "standard",
+            "shipping_type": "freight",
+            "shipment_duration_range": "8 - 12",
+            "shipment_duration_unit": "hours"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "Borzo",
+            "courier_code": "borzo",
+            "courier_service_name": "Instant Bike",
+            "courier_service_code": "instant_bike",
+            "tier": "standard",
+            "description": "Delivery using bike",
+            "service_type": "instant",
+            "shipping_type": "parcel",
+            "shipment_duration_range": "1 - 3",
+            "shipment_duration_unit": "hours"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "Borzo",
+            "courier_code": "borzo",
+            "courier_service_name": "Instant Car",
+            "courier_service_code": "instant_car",
+            "tier": "standard",
+            "description": "Delivery using car",
+            "service_type": "instant",
+            "shipping_type": "parcel",
+            "shipment_duration_range": "1 - 4",
+            "shipment_duration_unit": "hours"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "Lalamove",
+            "courier_code": "lalamove",
+            "courier_service_name": "Motorcycle",
+            "courier_service_code": "motorcycle",
+            "tier": "premium",
+            "description": "Delivery using bike",
+            "service_type": "same_day",
+            "shipping_type": "parcel",
+            "shipment_duration_range": "1 - 3",
+            "shipment_duration_unit": "hours"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "Lalamove",
+            "courier_code": "lalamove",
+            "courier_service_name": "MPV",
+            "courier_service_code": "mpv",
+            "tier": "premium",
+            "description": "Delivery using car",
+            "service_type": "same_day",
+            "shipping_type": "freight",
+            "shipment_duration_range": "1 - 3",
+            "shipment_duration_unit": "hours"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "Lalamove",
+            "courier_code": "lalamove",
+            "courier_service_name": "Van",
+            "courier_service_code": "van",
+            "tier": "premium",
+            "description": "Delivery using van",
+            "service_type": "same_day",
+            "shipping_type": "freight",
+            "shipment_duration_range": "2 - 4",
+            "shipment_duration_unit": "hours"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "Lalamove",
+            "courier_code": "lalamove",
+            "courier_service_name": "Truck",
+            "courier_service_code": "truck",
+            "tier": "premium",
+            "description": "Delivery using truck",
+            "service_type": "same_day",
+            "shipping_type": "freight",
+            "shipment_duration_range": "3 - 6",
+            "shipment_duration_unit": "hours"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "Lalamove",
+            "courier_code": "lalamove",
+            "courier_service_name": "CDD Bak",
+            "courier_service_code": "cdd_bak",
+            "tier": "premium",
+            "description": "Delivery using CDD Bak",
+            "service_type": "same_day",
+            "shipping_type": "freight",
+            "shipment_duration_range": "1 - 3",
+            "shipment_duration_unit": "hours"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "Lalamove",
+            "courier_code": "lalamove",
+            "courier_service_name": "CDD Box",
+            "courier_service_code": "cdd_box",
+            "tier": "premium",
+            "description": "Delivery using CDD Box",
+            "service_type": "same_day",
+            "shipping_type": "freight",
+            "shipment_duration_range": "1 - 3",
+            "shipment_duration_unit": "hours"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "Lalamove",
+            "courier_code": "lalamove",
+            "courier_service_name": "Engkel Bak",
+            "courier_service_code": "engkel_bak",
+            "tier": "premium",
+            "description": "Delivery using Engkel Bak",
+            "service_type": "same_day",
+            "shipping_type": "freight",
+            "shipment_duration_range": "1 - 3",
+            "shipment_duration_unit": "hours"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "Lalamove",
+            "courier_code": "lalamove",
+            "courier_service_name": "Engkel Box",
+            "courier_service_code": "engkel_box",
+            "tier": "premium",
+            "description": "Delivery using Engkel Box",
+            "service_type": "same_day",
+            "shipping_type": "freight",
+            "shipment_duration_range": "1 - 3",
+            "shipment_duration_unit": "hours"
+        },
+        {
+            "available_collection_method": [
+                "pickup"
+            ],
+            "available_for_cash_on_delivery": false,
+            "available_for_proof_of_delivery": false,
+            "available_for_instant_waybill_id": true,
+            "courier_name": "Dash Express",
+            "courier_code": "dash_express",
+            "courier_service_name": "Same Day",
+            "courier_service_code": "SAME_DAY",
+            "tier": "free",
+            "description": "Dash Same Day",
+            "service_type": "same_day",
+            "shipping_type": "parcel",
+            "shipment_duration_range": "6 - 8",
+            "shipment_duration_unit": "hour"
+        }
+    ]
+}

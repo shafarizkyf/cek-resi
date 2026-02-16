@@ -1,0 +1,89 @@
+{
+    "success": true,
+    "messsage": "Successfully get tracking info",
+    "object": "tracking",
+    "id": "6975534c959386ffa452cfd4",
+    "waybill_id": "JD0532469935",
+    "courier": {
+        "company": "jnt",
+        "name": null,
+        "phone": null,
+        "driver_name": null,
+        "driver_phone": null,
+        "driver_plate_number": null,
+        "driver_photo_url": null
+    },
+    "origin": {
+        "contact_name": "G*",
+        "address": "Gad**. "
+    },
+    "destination": {
+        "contact_name": "N************n",
+        "address": "Bonafida***************************************************************************Banyumas. "
+    },
+    "history": [
+        {
+            "note": "Manifes.",
+            "updated_at": "2026-01-23T17:28:03+07:00",
+            "status": "picking_up"
+        },
+        {
+            "note": "Item has been picked and ready to be shipped.",
+            "updated_at": "2026-01-23T17:35:04+07:00",
+            "status": "picked"
+        },
+        {
+            "note": "Paket akan dikirimkan ke TCCJR031.",
+            "updated_at": "2026-01-23T18:23:44+07:00",
+            "status": "dropping_off"
+        },
+        {
+            "note": "Paket telah sampai di TCCJR031. Mobil.",
+            "updated_at": "2026-01-23T20:10:47+07:00",
+            "status": "dropping_off"
+        },
+        {
+            "note": "Paket akan dikirimkan ke BDG_GATEWAY.",
+            "updated_at": "2026-01-23T20:45:58+07:00",
+            "status": "dropping_off"
+        },
+        {
+            "note": "Paket telah sampai di BDG_GATEWAY. Mobil.",
+            "updated_at": "2026-01-24T00:09:31+07:00",
+            "status": "dropping_off"
+        },
+        {
+            "note": "Paket akan dikirimkan ke PWO_GATEWAY. Mobil.",
+            "updated_at": "2026-01-24T04:38:40+07:00",
+            "status": "dropping_off"
+        },
+        {
+            "note": "Paket telah sampai di PWO_GATEWAY. Mobil.",
+            "updated_at": "2026-01-24T13:24:03+07:00",
+            "status": "dropping_off"
+        },
+        {
+            "note": "Paket akan dikirimkan ke SUMBANG01. Mobil.",
+            "updated_at": "2026-01-24T13:28:50+07:00",
+            "status": "dropping_off"
+        },
+        {
+            "note": "Paket telah sampai di SUMBANG01. Mobil.",
+            "updated_at": "2026-01-24T18:13:23+07:00",
+            "status": "dropping_off"
+        },
+        {
+            "note": "Paket akan dikirim ke alamat penerima.",
+            "updated_at": "2026-01-25T06:22:54+07:00",
+            "status": "dropping_off"
+        },
+        {
+            "note": "Item has been delivered.",
+            "updated_at": "2026-01-25T09:26:59+07:00",
+            "status": "delivered"
+        }
+    ],
+    "link": null,
+    "order_id": null,
+    "status": "delivered"
+}
