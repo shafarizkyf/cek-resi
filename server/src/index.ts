@@ -82,9 +82,16 @@ async function fetchBiteShipCouriers(): Promise<Courier[]> {
     throw { status: data.code || 400, message: data.message || 'BiteShip error' };
   }
   
-  return data.couriers.map((c: { code: string; name: string }) => ({
-    code: c.code,
-    description: c.name,
+  const uniqueCouriers = new Map<string, string>();
+  for (const c of data.couriers) {
+    if (!uniqueCouriers.has(c.courier_code)) {
+      uniqueCouriers.set(c.courier_code, c.courier_name);
+    }
+  }
+  
+  return Array.from(uniqueCouriers.entries()).map(([code, name]) => ({
+    code,
+    description: name,
   }));
 }
 
