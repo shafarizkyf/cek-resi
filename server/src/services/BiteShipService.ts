@@ -24,10 +24,10 @@ export class BiteShipService {
 
     const data = (await response.json()) as Record<string, any>;
 
-    if (data.code !== 200 && data.code !== 201) {
+    if (!data.success) {
       throw {
-        status: data.code || 400,
-        message: data.message || 'BiteShip error',
+        status: response.status || 400,
+        message: response.statusText || 'BiteShip error',
       } as ApiError;
     }
 
