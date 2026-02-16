@@ -1,117 +1,29 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { useQuery, keepPreviousData } from "@tanstack/react-query";
-import { Search, Package, Truck, MapPin, Clock } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { useState } from 'react';
+import { Search, Package, Truck, MapPin, Clock } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from '@/components/ui/select';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-
-interface Courier {
-  code: string;
-  description: string;
-}
-
-interface TrackingSummary {
-  awb: string;
-  courier: string;
-  status: string;
-  date: string;
-}
-
-interface TrackingDetail {
-  origin: string;
-  destination: string;
-  shipper: string;
-  receiver: string;
-}
-
-interface TrackingEvent {
-  date: string;
-  desc: string;
-  location: string;
-}
-
-interface TrackingData {
-  summary: TrackingSummary;
-  detail: TrackingDetail;
-  history: TrackingEvent[];
-}
-
-interface ApiResponse {
-  status: number;
-  data?: {
-    summary: TrackingSummary;
-    detail: TrackingDetail;
-    history: TrackingEvent[];
-  };
-  message?: string;
-  error?: string;
-}
-
-function useCouriers() {
-  return useQuery<Courier[]>({
-    queryKey: ["couriers"],
-    queryFn: async () => {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/couriers`);
-      return res.json();
-    },
-  });
-}
-
-function useTracking(courier: string, awb: string) {
-  return useQuery<TrackingData | null>({
-    queryKey: ["tracking", courier, awb],
-    queryFn: async () => {
-      if (!courier || !awb) return null;
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/track?courier=${courier}&awb=${awb}`);
-      const data: ApiResponse = await res.json();
-
-      if (res.status === 522) {
-        throw new Error("Layanan sedang gangguan, coba lagi nanti");
-      }
-      if (res.status === 404) {
-        throw new Error("Nomor resi tidak ditemukan");
-      }
-      if (res.status === 401) {
-        throw new Error("Konfigurasi API tidak valid");
-      }
-      if (res.status === 422) {
-        throw new Error("Kurir tidak valid");
-      }
-      if (!res.ok || data.status !== 200) {
-        throw new Error(data.message || "Gagal mengambil data");
-      }
-      if (data.data) {
-        return {
-          summary: data.data.summary,
-          detail: data.data.detail,
-          history: data.data.history || [],
-        };
-      }
-      throw new Error(data.message || "Tracking data not found");
-    },
-    enabled: false,
-    placeholderData: keepPreviousData,
-  });
-}
+} from '@/components/ui/card';
+import { useCouriers } from '@/hooks/useCouriers';
+import { useTracking } from '@/hooks/useTracking';
 
 export default function Home() {
-  const [awbNumber, setAwbNumber] = useState("");
-  const [selectedCourier, setSelectedCourier] = useState("");
+  const [awbNumber, setAwbNumber] = useState('');
+  const [selectedCourier, setSelectedCourier] = useState('');
 
   const { data: couriers = [], isLoading: couriersLoading } = useCouriers();
   const {
@@ -128,7 +40,7 @@ export default function Home() {
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
       handleTrack();
     }
   };
@@ -159,13 +71,10 @@ export default function Home() {
                 onKeyDown={handleKeyPress}
                 className="flex-1"
               />
-              <Select
-                value={selectedCourier}
-                onValueChange={setSelectedCourier}
-              >
+              <Select value={selectedCourier} onValueChange={setSelectedCourier}>
                 <SelectTrigger className="w-full sm:w-[200px]">
                   <SelectValue
-                    placeholder={couriersLoading ? "Loading..." : "Pilih kurir"}
+                    placeholder={couriersLoading ? 'Loading...' : 'Pilih kurir'}
                   />
                 </SelectTrigger>
                 <SelectContent>
@@ -188,7 +97,7 @@ export default function Home() {
               className="w-full"
             >
               {trackingLoading ? (
-                "Mencari..."
+                'Mencari...'
               ) : (
                 <>
                   <Search className="mr-2 h-4 w-4" />
@@ -198,7 +107,7 @@ export default function Home() {
             </Button>
             {error && (
               <p className="text-sm text-red-500">
-                {error instanceof Error ? error.message : "Terjadi kesalahan"}
+                {error instanceof Error ? error.message : 'Terjadi kesalahan'}
               </p>
             )}
           </CardContent>
@@ -209,11 +118,11 @@ export default function Home() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Package className="h-5 w-5" />
-                {trackingData.summary.courier.toUpperCase()} -{" "}
+                {trackingData.summary.courier.toUpperCase()} -{' '}
                 {trackingData.summary.awb}
               </CardTitle>
               <CardDescription>
-                Status:{" "}
+                Status:{' '}
                 <span className="font-medium text-green-600">
                   {trackingData.summary.status}
                 </span>
@@ -226,10 +135,10 @@ export default function Home() {
                     <MapPin className="h-3 w-3" /> Pengirim
                   </p>
                   <p className="font-medium">
-                    {trackingData.detail.shipper || "-"}
+                    {trackingData.detail.shipper || '-'}
                   </p>
                   <p className="text-sm text-muted-foreground">
-                    {trackingData.detail.origin || "-"}
+                    {trackingData.detail.origin || '-'}
                   </p>
                 </div>
                 <div className="space-y-1">
@@ -237,10 +146,10 @@ export default function Home() {
                     <MapPin className="h-3 w-3" /> Penerima
                   </p>
                   <p className="font-medium">
-                    {trackingData.detail.receiver || "-"}
+                    {trackingData.detail.receiver || '-'}
                   </p>
                   <p className="text-sm text-muted-foreground">
-                    {trackingData.detail.destination || "-"}
+                    {trackingData.detail.destination || '-'}
                   </p>
                 </div>
               </div>
