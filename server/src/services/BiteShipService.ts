@@ -71,8 +71,8 @@ export class BiteShipService {
     }
 
     const history: TrackingEvent[] = (data.history || []).map(
-      (h: { created_at: string; note: string; location: string }) => ({
-        date: h.created_at,
+      (h: { updated_at: string; note: string; location: string }) => ({
+        date: h.updated_at,
         desc: h.note,
         location: h.location || '',
       })
@@ -88,8 +88,8 @@ export class BiteShipService {
           date: history.length ? history[0].date : '',
         },
         detail: {
-          origin: data.origin || '',
-          destination: data.destination || '',
+          origin: `${data.origin?.contact_name || ''} ${data.origin?.address || ''}`,
+          destination: `${data.destination?.contact_name || ''} ${data.destination?.address || ''}`,
           shipper: '',
           receiver: '',
         },
