@@ -43,8 +43,66 @@ const couriers: Courier[] = [
   { code: 'kurir_tokopedia', description: 'Kurir Rekomendasi' },
 ];
 
-app.get('/api/couriers', (_req: Request, res: Response) => {
-  res.json(couriers);
+async function fetchBinderByteCouriers(): Promise<Courier[]> {
+  const url = `${BINDERBYTE_API_URL}/v1/list_courier?api_key=${BINDERBYTE_API_KEY}`;
+  const response = await fetch(url);
+  
+  if (!response.ok) {
+    throw { status: response.status, message: 'BinderByte couriers request failed' };
+  }
+  
+  const data = await response.json() as Record<string, any>;
+  
+  if (data.code !== 200) {
+    throw { status: data.code || 400, message: data.message || 'BinderByte error' };
+  }
+  
+  return data.couriers.map((c: { code: string; description: string }) => ({
+    code: c.code,
+    description: c.description,
+  }));
+}
+
+async function fetchBiteShipCouriers(): Promise<Courier[]> {
+  const url = `${BITESHIP_API_URL}/v1/couriers`;
+  const response = await fetch(url, {
+    headers: {
+      'Authorization': `Bearer ${BITESHIP_API_KEY}`,
+      'Content-Type': 'application/json',
+    },
+  });
+  
+  if (!response.ok) {
+    throw { status: response.status, message: 'BiteShip couriers request failed' };
+  }
+  
+  const data = await response.json() as Record<string, any>;
+  
+  if (data.code !== 200 && data.code !== 201) {
+    throw { status: data.code || 400, message: data.message || 'BiteShip error' };
+  }
+  
+  return data.couriers.map((c: { code: string; name: string }) => ({
+    code: c.code,
+    description: c.name,
+  }));
+}
+
+app.get('/api/couriers', async (_req: Request, res: Response) => {
+  try {
+    const couriersData = await fetchBinderByteCouriers();
+    res.json(couriersData);
+  } catch (binderByteError: any) {
+    console.log('BinderByte failed for couriers, trying BiteShip...', binderByteError);
+    
+    try {
+      const biteshipCouriers = await fetchBiteShipCouriers();
+      res.json(biteshipCouriers);
+    } catch (biteshipError: any) {
+      console.error('BiteShip also failed for couriers:', biteshipError);
+      res.json(couriers);
+    }
+  }
 });
 
 interface TrackingData {
