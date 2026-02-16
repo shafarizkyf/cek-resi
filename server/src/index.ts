@@ -140,10 +140,9 @@ interface TrackingData {
 async function fetchBinderByte(courier: string, awb: string): Promise<TrackingData> {
   const url = `${BINDERBYTE_API_URL}/v1/track?api_key=${BINDERBYTE_API_KEY}&courier=${courier}&awb=${awb}`;
   const response = await fetch(url);
-  
+
   if (!response.ok) {
-    const errorData = await response.json() as Record<string, any>;
-    throw { status: response.status, message: errorData.message || 'BinderByte request failed' };
+    throw { status: response.status, message: 'BinderByte request failed' };
   }
   
   return response.json() as Promise<TrackingData>;
@@ -151,7 +150,7 @@ async function fetchBinderByte(courier: string, awb: string): Promise<TrackingDa
 
 async function fetchBiteShip(awb: string, courier: string): Promise<TrackingData> {
   const url = `${BITESHIP_API_URL}/v1/trackings/${awb}/couriers/${courier}`;
-  console.log({url, BITESHIP_API_KEY})
+  console.log({url})
   const response = await fetch(url, {
     headers: {
       'Authorization': BITESHIP_API_KEY,
@@ -165,13 +164,14 @@ async function fetchBiteShip(awb: string, courier: string): Promise<TrackingData
   }
   
   const data = await response.json() as Record<string, any>;
+
+  console.log('data', data);
   
-  if (data.code !== 200 && data.code !== 201) {
-    throw { status: data.code || 400, message: data.message || 'BiteShip error' };
+  if (!data.success) {
+    throw { status: 'BiteShip error' };
   }
   
-  const tracking = data.tracking;
-  const history = (tracking.history || []).map((h: { created_at: string; note: string; location: string }) => ({
+  const history = (data.history || []).map((h: { created_at: string; note: string; location: string }) => ({
     date: h.created_at,
     desc: h.note,
     location: h.location || '',
@@ -181,16 +181,16 @@ async function fetchBiteShip(awb: string, courier: string): Promise<TrackingData
     status: 200,
     data: {
       summary: {
-        awb: tracking.waybill_id || awb,
-        courier: tracking.courier_code || courier,
-        status: tracking.status || 'UNKNOWN',
-        date: tracking.waybill_date || '',
+        awb: awb,
+        courier: courier,
+        status: data.status,
+        date: history.length ? history[0]['updated_at'] : '',
       },
       detail: {
-        origin: tracking.origin || '',
-        destination: tracking.destination || '',
-        shipper: tracking.shipper || '',
-        receiver: tracking.receiver || '',
+        origin: data.origin || '',
+        destination: data.destination || '',
+        shipper: '',
+        receiver: '',
       },
       history,
     },
