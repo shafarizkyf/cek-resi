@@ -19,17 +19,7 @@ export class BinderByteService {
 
     const data = (await response.json()) as Record<string, any>;
 
-    if (data.code !== 200) {
-      throw {
-        status: data.code || 400,
-        message: data.message || 'BinderByte error',
-      } as ApiError;
-    }
-
-    return data.couriers.map((c: { code: string; description: string }) => ({
-      code: c.code,
-      description: c.description,
-    }));
+    return data as { code: string; description: string }[]
   }
 
   static async fetchTracking(courier: string, awb: string): Promise<TrackingData> {
@@ -37,10 +27,17 @@ export class BinderByteService {
     const response = await fetch(url);
 
     if (!response.ok) {
-      const errorData = (await response.json()) as Record<string, any>;
+      let errorData;
+      try {
+        errorData = (await response.json()) as Record<string, any>;
+      } catch (error) {
+        errorData = {
+          message: 'Unknown Error'
+        }
+      }
       throw {
         status: response.status,
-        message: errorData.message || 'BinderByte request failed',
+        message: errorData.message,
       } as ApiError;
     }
 

@@ -17,19 +17,15 @@ export class TrackingService {
           if (data.status === 200 && data.data) {
             return { data };
           }
-          if (data.status === 401) {
-            return { error: { status: 401, message: 'Invalid API key' } };
-          }
-          if (data.status === 404) {
-            return { error: { status: 404, message: 'AWB number not found' } };
-          }
-          if (data.status === 422) {
-            return { error: { status: 422, message: data.message || 'Invalid courier' } };
-          }
           errors.push({ provider, error: { status: data.status, message: data.message } });
         } catch (error: any) {
-          console.log('BinderByte failed, trying next provider...', error);
-          errors.push({ provider, error });
+          console.error(provider, JSON.stringify(error));
+          if (error?.status >= 400 && error?.status < 500) {
+            return { error: { status: error.status, message: error.message } };
+          }
+
+          console.log(`${provider} failed, trying next provider...`, error);
+          errors.push({ provider, error: { status: 500, message: 'Unknown' } });
         }
       } else if (provider === 'biteship') {
         try {
@@ -39,7 +35,7 @@ export class TrackingService {
           }
           errors.push({ provider, error: { status: data.status, message: data.message } });
         } catch (error: any) {
-          console.log('BiteShip failed, trying next provider...', error);
+          console.log(`${provider} failed, trying next provider...`, error);
           errors.push({ provider, error });
         }
       }

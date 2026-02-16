@@ -11,13 +11,13 @@ services:
   server:
     build: ./server
     env_file:
-      - .env
+      - ./server/.env
     restart: unless-stopped
 
   client:
     build: ./client
     env_file:
-      - .env
+      - ./client/.env
     environment:
       - PORT=3000
       - NEXT_PUBLIC_API_URL=/api
