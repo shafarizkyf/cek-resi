@@ -27,5 +27,6 @@ export class CourierService {
     }
 
     console.error('All providers failed for couriers:', errors);
+    return [];
   }
 }
