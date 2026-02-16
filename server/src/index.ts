@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 
@@ -150,9 +151,10 @@ async function fetchBinderByte(courier: string, awb: string): Promise<TrackingDa
 
 async function fetchBiteShip(awb: string, courier: string): Promise<TrackingData> {
   const url = `${BITESHIP_API_URL}/v1/trackings/${awb}/couriers/${courier}`;
+  console.log({url, BITESHIP_API_KEY})
   const response = await fetch(url, {
     headers: {
-      'Authorization': `Bearer ${BITESHIP_API_KEY}`,
+      'Authorization': BITESHIP_API_KEY,
       'Content-Type': 'application/json',
     },
   });
