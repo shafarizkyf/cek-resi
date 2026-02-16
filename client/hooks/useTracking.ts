@@ -1,13 +1,21 @@
 import { useQuery, keepPreviousData } from '@tanstack/react-query';
 import { TrackingData, ApiResponse } from '@/types';
 
+const getApiUrl = (path: string) => {
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+  if (!baseUrl || baseUrl === '/api') {
+    return path;
+  }
+  return `${baseUrl}${path}`;
+};
+
 export function useTracking(courier: string, awb: string) {
   return useQuery<TrackingData | null>({
     queryKey: ['tracking', courier, awb],
     queryFn: async () => {
       if (!courier || !awb) return null;
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/track?courier=${courier}&awb=${awb}`
+        `${getApiUrl('/api/track')}?courier=${courier}&awb=${awb}`
       );
       const data: ApiResponse = await res.json();
 

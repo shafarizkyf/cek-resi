@@ -1,21 +1,24 @@
 services:
+  nginx:
+    build: ./nginx
+    ports:
+      - "8000:80"
+    depends_on:
+      - client
+      - server
+    restart: unless-stopped
+
   server:
     build: ./server
-    ports:
-      - "3001:3001"
     env_file:
       - .env
     restart: unless-stopped
 
   client:
     build: ./client
-    ports:
-      - "3000:3000"
     env_file:
       - .env
     environment:
       - PORT=3000
-      - NEXT_PUBLIC_API_URL=http://server:3001
-    depends_on:
-      - server
+      - NEXT_PUBLIC_API_URL=/api
     restart: unless-stopped
