@@ -1,6 +1,6 @@
-# Cek Resi - Indonesian Waybill Tracking App
+# Cek Resi - Aplikasi Pelacakan Paket Indonesia
 
-Track packages from multiple Indonesian couriers (JNE, J&T, SiCepat, TIKI, etc.) in one place.
+Lacak paket dari berbagai kurir Indonesia (JNE, J&T, SiCepat, TIKI, dll.) dalam satu tempat.
 
 ## Demo
 - https://cek-resi.shafarizkyf.com/ (Kalo listrik rumah ga mati wkwkw)
@@ -8,43 +8,43 @@ Track packages from multiple Indonesian couriers (JNE, J&T, SiCepat, TIKI, etc.)
 [![Tonton di YouTube](https://img.youtube.com/vi/cnH7g1iwnAI/0.jpg)](https://youtu.be/cnH7g1iwnAI)
 
 
-## Features
+## Fitur
 
-- Track packages from 24+ Indonesian couriers
-- Automatic fallback when primary API provider fails
-- Beautiful, responsive UI with shadcn/ui
-- Docker support for easy deployment
+- Lacak paket dari 24+ kurir Indonesia
+- Fallback otomatis saat provider API utama gagal
+- UI yang indah dan responsif dengan shadcn/ui
+- Dukungan Docker untuk kemudahan deployment
 
 ## Tech Stack
 
-- **Frontend**: Next.js 14, React, TypeScript, Tailwind CSS, shadcn/ui, TanStack Query
+- **Frontend**: Next.js 16, React, TypeScript, Tailwind CSS, shadcn/ui, TanStack Query
 - **Backend**: Express.js, TypeScript
-- **API Providers**: BinderByte (primary), BiteShip (fallback)
+- **Provider API**: BinderByte (utama), BiteShip (fallback)
 - **Deployment**: Docker, Docker Compose
 
-## Prerequisites
+## Prasyarat
 
 - Node.js 20+
 - Docker & Docker Compose
 - BinderByte API key (https://binderbyte.com)
-- BiteShip API key (optional, for fallback) (https://biteship.com)
+- BiteShip API key (opsional, untuk fallback) (https://biteship.com)
 
-## Quick Start
+## Mulai Cepat
 
-### Local Development
+### Pengembangan Lokal
 
-1. Install dependencies:
+1. Install dependensi:
 ```bash
 npm install
 ```
 
-2. Copy environment file and add your API keys:
+2. Copy file environment dan tambahkan API keys:
 ```bash
 cp .env.example .env
-# Edit .env with your BINDERBYTE_API_KEY and BITESHIP_API_KEY
+# Edit .env dengan BINDERBYTE_API_KEY dan BITESHIP_API_KEY
 ```
 
-3. Run development servers:
+3. Jalankan server pengembangan:
 ```bash
 npm run dev
 ```
@@ -54,23 +54,23 @@ npm run dev
 
 ### Docker
 
-1. Copy environment file and add your API keys:
+1. Copy file environment dan tambahkan API keys:
 ```bash
 cp .env.example .env
-# Edit .env with your BINDERBYTE_API_KEY and BITESHIP_API_KEY
+# Edit .env dengan BINDERBYTE_API_KEY dan BITESHIP_API_KEY
 ```
 
-2. (optional, if you want to deploy to your server) update `server_name` in nginx/nginx.conf
+2. (opsional, jika ingin deploy ke server) update `server_name` di nginx/nginx.conf
 
-3. Build and run:
-```bash
-docker-compose up -d
+3. Build dan jalankan:
+```bash -d
 ```
 
-- Client: http://localhost:3000
+
+docker-compose up- Client: http://localhost:3000
 - Server: http://localhost:3001
 
-4. View logs:
+4. Lihat logs:
 ```bash
 docker-compose logs -f
 ```
@@ -80,7 +80,7 @@ docker-compose logs -f
 docker-compose down
 ```
 
-## Project Structure
+## Struktur Proyek
 
 ```
 cek-resi/
@@ -97,38 +97,37 @@ cek-resi/
 │       ├── services/    # API services
 │       └── types/       # TypeScript interfaces
 ├── docker-compose.yml    # Docker orchestration
-└── .env.example         # Environment variables template
 ```
 
-## Environment Variables
+## Variabel Environment
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `PORT` | Server port | `3001` |
-| `BINDERBYTE_API_URL` | BinderByte API URL | `https://api.binderbyte.com` |
-| `BINDERBYTE_API_KEY` | BinderByte API key | - |
-| `BITESHIP_API_URL` | BiteShip API URL | `https://api.biteship.com` |
-| `BITESHIP_API_KEY` | BiteShip API key | - |
-| `DEFAULT_PROVIDER` | Primary API provider | `binderbyte` |
-| `FALLBACK_PROVIDER` | Fallback API provider | `biteship` |
-| `NEXT_PUBLIC_API_URL` | Server URL for client | `http://localhost:3001` |
+| Variabel | Deskripsi | Default |
+|----------|-----------|---------|
+| `PORT` | Port server | `3001` |
+| `BINDERBYTE_API_URL` | URL API BinderByte | `https://api.binderbyte.com` |
+| `BINDERBYTE_API_KEY` | API key BinderByte | - |
+| `BITESHIP_API_URL` | URL API BiteShip | `https://api.biteship.com` |
+| `BITESHIP_API_KEY` | API key BiteShip | - |
+| `DEFAULT_PROVIDER` | Provider API utama | `binderbyte` |
+| `FALLBACK_PROVIDER` | Provider API fallback | `biteship` |
+| `NEXT_PUBLIC_API_URL` | URL server untuk client | `http://localhost:3001` |
 
-## Supported Couriers
+## Kurir yang Didukung
 
 JNE, POS Indonesia, J&T Express, J&T Cargo, SiCepat, TIKI, AnterAja, Wahana, Ninja Express, Lion Parcel, PCP Express, JET Express, REX Express, First Logistics, ID Express, Shopee Express, KGXpress, SAP Express, RPX, Lazada Express, Indah Cargo, Dakota Cargo, Kurir Rekomendasi
 
-## API Endpoints
+## Endpoint API
 
 ### GET /api/couriers
-Get list of available couriers.
+Mendapatkan daftar kurir yang tersedia.
 
 ### GET /api/track?courier={code}&awb={number}
-Track a package.
+Melacak paket.
 
-**Parameters:**
-- `courier`: Courier code (e.g., `jne`, `jnt`, `sicepat`)
-- `awb`: Waybill/AWB number
+**Parameter:**
+- `courier`: Kode kurir (contoh: `jne`, `jnt`, `sicepat`)
+- `awb`: Nomor resi/AWB
 
-## License
+## Lisensi
 
 MIT
