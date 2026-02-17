@@ -6,7 +6,7 @@ import { useTracking } from "@/hooks/useTracking";
 import { TrackingHeader } from "@/components/TrackingHeader";
 import { TrackingForm } from "@/components/TrackingForm";
 import { TrackingResult } from "@/components/TrackingResult";
-import { Github } from "lucide-react";
+import { GithubIcon } from "@/components/GithubIcon";
 
 export default function Home() {
   const [awbNumber, setAwbNumber] = useState("");
@@ -36,7 +36,7 @@ export default function Home() {
           rel="noopener noreferrer"
           className="absolute top-4 right-4 text-slate-600 hover:text-slate-900 transition-colors"
         >
-          <Github className="w-6 h-6" />
+          <GithubIcon className="w-6 h-6" />
         </a>
 
         <TrackingHeader />
