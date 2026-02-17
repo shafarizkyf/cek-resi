@@ -13,14 +13,14 @@ export class CourierService {
         try {
           return await BinderByteService.fetchCouriers();
         } catch (error: any) {
-          console.log('BinderByte failed for couriers, trying next provider...', error);
+          console.log(`${provider} failed for couriers, trying next provider...`, error);
           errors.push({ provider, error });
         }
       } else if (provider === 'biteship') {
         try {
           return await BiteShipService.fetchCouriers();
         } catch (error: any) {
-          console.log('BiteShip failed for couriers, trying next provider...', error);
+          console.log(`${provider} failed for couriers, trying next provider...`, error);
           errors.push({ provider, error });
         }
       }

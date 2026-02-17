@@ -4,7 +4,7 @@ import { config } from '../config';
 import { TrackingData, ApiError } from '../types';
 
 export class TrackingService {
-  static async track(courier: string, awb: string): Promise<{ data?: TrackingData; error?: ApiError }> {
+  static async track(courier: string, awb: string, phoneNumber?: string): Promise<{ data?: TrackingData; error?: ApiError }> {
     const { default: defaultProvider, fallback: fallbackProvider } = config.providers;
 
     const providers = [defaultProvider, fallbackProvider];
@@ -13,7 +13,7 @@ export class TrackingService {
     for (const provider of providers) {
       if (provider === 'binderbyte') {
         try {
-          const data = await BinderByteService.fetchTracking(courier, awb);
+          const data = await BinderByteService.fetchTracking(courier, awb, phoneNumber);
           if (data.status === 200 && data.data) {
             return { data };
           }

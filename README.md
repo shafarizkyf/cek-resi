@@ -2,6 +2,12 @@
 
 Track packages from multiple Indonesian couriers (JNE, J&T, SiCepat, TIKI, etc.) in one place.
 
+## Demo
+- https://cek-resi.shafarizkyf.com/ (Kalo listrik rumah ga mati wkwkw)
+
+[![Tonton di YouTube](https://img.youtube.com/vi/cnH7g1iwnAI/0.jpg)](https://youtu.be/cnH7g1iwnAI)
+
+
 ## Features
 
 - Track packages from 24+ Indonesian couriers
@@ -54,7 +60,9 @@ cp .env.example .env
 # Edit .env with your BINDERBYTE_API_KEY and BITESHIP_API_KEY
 ```
 
-2. Build and run:
+2. (optional, if you want to deploy to your server) update `server_name` in nginx/nginx.conf
+
+3. Build and run:
 ```bash
 docker-compose up -d
 ```
@@ -62,12 +70,12 @@ docker-compose up -d
 - Client: http://localhost:3000
 - Server: http://localhost:3001
 
-3. View logs:
+4. View logs:
 ```bash
 docker-compose logs -f
 ```
 
-4. Stop:
+5. Stop:
 ```bash
 docker-compose down
 ```
