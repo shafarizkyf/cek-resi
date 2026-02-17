@@ -23,9 +23,11 @@ interface TrackingFormProps {
   trackingLoading: boolean;
   awbNumber: string;
   selectedCourier: string;
+  phoneNumber?: string;
   error?: Error | null;
   onAwbChange: (value: string) => void;
   onCourierChange: (value: string) => void;
+  onPhoneNumberChange?: (value: string) => void;
   onTrack: () => void;
 }
 
@@ -35,9 +37,11 @@ export function TrackingForm({
   trackingLoading,
   awbNumber,
   selectedCourier,
+  phoneNumber,
   error,
   onAwbChange,
   onCourierChange,
+  onPhoneNumberChange,
   onTrack,
 }: TrackingFormProps) {
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -79,6 +83,16 @@ export function TrackingForm({
               ))}
             </SelectContent>
           </Select>
+        </div>
+        <div className="flex flex-col sm:flex-row gap-4">
+          <Input
+            placeholder="5 digit terakhir nomor telepon (opsional)"
+            value={phoneNumber || ''}
+            onChange={(e) => onPhoneNumberChange?.(e.target.value.replace(/\D/g, '').slice(0, 5))}
+            onKeyDown={handleKeyPress}
+            maxLength={5}
+            className="flex-1"
+          />
         </div>
         <Button
           onClick={onTrack}
