@@ -22,8 +22,11 @@ export class BinderByteService {
     return data as { code: string; description: string }[]
   }
 
-  static async fetchTracking(courier: string, awb: string): Promise<TrackingData> {
-    const url = `${this.baseUrl}/v1/track?api_key=${this.apiKey}&courier=${courier}&awb=${awb}`;
+  static async fetchTracking(courier: string, awb: string, phoneNumber?: string): Promise<TrackingData> {
+    let url = `${this.baseUrl}/v1/track?api_key=${this.apiKey}&courier=${courier}&awb=${awb}`;
+    if (phoneNumber) {
+      url += `&number=${phoneNumber}`;
+    }
     const response = await fetch(url);
 
     if (!response.ok) {

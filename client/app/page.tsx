@@ -10,6 +10,7 @@ import { TrackingResult } from '@/components/TrackingResult';
 export default function Home() {
   const [awbNumber, setAwbNumber] = useState('');
   const [selectedCourier, setSelectedCourier] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
 
   const { data: couriers = [], isLoading: couriersLoading } = useCouriers();
   const {
@@ -17,7 +18,7 @@ export default function Home() {
     isLoading: trackingLoading,
     error,
     refetch,
-  } = useTracking(selectedCourier, awbNumber);
+  } = useTracking(selectedCourier, awbNumber, phoneNumber);
 
   const handleTrack = () => {
     if (awbNumber && selectedCourier) {
@@ -36,9 +37,11 @@ export default function Home() {
           trackingLoading={trackingLoading}
           awbNumber={awbNumber}
           selectedCourier={selectedCourier}
+          phoneNumber={phoneNumber}
           error={error}
           onAwbChange={setAwbNumber}
           onCourierChange={setSelectedCourier}
+          onPhoneNumberChange={setPhoneNumber}
           onTrack={handleTrack}
         />
 

@@ -4,14 +4,14 @@ import { TrackingService } from '../services/TrackingService';
 const router = Router();
 
 router.get('/', async (req, res) => {
-  const { courier, awb } = req.query;
+  const { courier, awb, number } = req.query;
 
   if (!courier || !awb) {
     res.status(400).json({ status: 400, message: 'Missing courier or awb parameter' });
     return;
   }
 
-  const result = await TrackingService.track(courier as string, awb as string);
+  const result = await TrackingService.track(courier as string, awb as string, number as string | undefined);
 
   if (result.error) {
     res.status(result.error.status as number).json({

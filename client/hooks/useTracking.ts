@@ -9,14 +9,16 @@ const getApiUrl = (path: string) => {
   return `${baseUrl}${path}`;
 };
 
-export function useTracking(courier: string, awb: string) {
+export function useTracking(courier: string, awb: string, phoneNumber?: string) {
   return useQuery<TrackingData | null>({
-    queryKey: ['tracking', courier, awb],
+    queryKey: ['tracking', courier, awb, phoneNumber],
     queryFn: async () => {
       if (!courier || !awb) return null;
-      const res = await fetch(
-        `${getApiUrl('/api/track')}?courier=${courier}&awb=${awb}`
-      );
+      let url = `${getApiUrl('/api/track')}?courier=${courier}&awb=${awb}`;
+      if (phoneNumber) {
+        url += `&number=${phoneNumber}`;
+      }
+      const res = await fetch(url);
       const data: ApiResponse = await res.json();
 
       if (res.status === 522) {
