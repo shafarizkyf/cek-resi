@@ -5,7 +5,7 @@ Track packages from multiple Indonesian couriers (JNE, J&T, SiCepat, TIKI, etc.)
 ## Demo
 - https://cek-resi.shafarizkyf.com/ (Kalo listrik rumah ga mati wkwkw)
 
-[![Tonton di YouTube](https://img.youtube.com/vi/cnH7g1iwnAI/default.jpg)](https://youtu.be/cnH7g1iwnAI)
+[![Tonton di YouTube](https://img.youtube.com/vi/cnH7g1iwnAI/0.jpg)](https://youtu.be/cnH7g1iwnAI)
 
 
 ## Features
