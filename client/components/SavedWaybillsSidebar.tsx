@@ -26,12 +26,12 @@ interface WaybillData {
 interface SavedWaybillsSidebarProps {
   isOpen: boolean;
   onClose: () => void;
-  waybills: any[];
+  waybills: WaybillData[];
   isLoading?: boolean;
   onDelete: (id: number | string) => void;
-  onUpdate: (id: number | string, data: any) => void;
+  onUpdate: (id: number | string, data: Partial<WaybillData>) => void;
   onTogglePolling: (id: number | string) => void;
-  onSelect: (waybill: any) => void;
+  onSelect: (waybill: WaybillData) => void;
   couriers: Courier[];
 }
 
@@ -55,8 +55,13 @@ export function SavedWaybillsSidebar({
   onSelect,
   couriers,
 }: SavedWaybillsSidebarProps) {
-  const [editing, setEditing] = useState<EditingState>({ id: null, data: { awb: "", courier: "", phoneNumber: "" } });
-  const [deleteConfirmId, setDeleteConfirmId] = useState<number | string | null>(null);
+  const [editing, setEditing] = useState<EditingState>({
+    id: null,
+    data: { awb: "", courier: "", phoneNumber: "" },
+  });
+  const [deleteConfirmId, setDeleteConfirmId] = useState<
+    number | string | null
+  >(null);
 
   useEffect(() => {
     if (isOpen) {
@@ -69,11 +74,16 @@ export function SavedWaybillsSidebar({
     };
   }, [isOpen]);
 
-  const getPhoneNumber = (waybill: WaybillData): string | null | undefined => waybill.phone_number || waybill.phoneNumber;
-  const getCreatedAt = (waybill: WaybillData): string | null | undefined => waybill.created_at || waybill.createdAt;
-  const getLastCheckedAt = (waybill: WaybillData): string | null | undefined => waybill.last_checked_at || waybill.lastCheckedAt;
-  const getPollingEnabled = (waybill: WaybillData) => waybill.polling_enabled ?? waybill.pollingEnabled ?? false;
-  const getHasUpdate = (waybill: WaybillData) => waybill.has_update ?? waybill.hasUpdate ?? false;
+  const getPhoneNumber = (waybill: WaybillData): string | null | undefined =>
+    waybill.phone_number || waybill.phoneNumber;
+  const getCreatedAt = (waybill: WaybillData): string | null | undefined =>
+    waybill.created_at || waybill.createdAt;
+  const getLastCheckedAt = (waybill: WaybillData): string | null | undefined =>
+    waybill.last_checked_at || waybill.lastCheckedAt;
+  const getPollingEnabled = (waybill: WaybillData) =>
+    waybill.polling_enabled ?? waybill.pollingEnabled ?? false;
+  const getHasUpdate = (waybill: WaybillData) =>
+    waybill.has_update ?? waybill.hasUpdate ?? false;
 
   const handleStartEdit = (waybill: WaybillData) => {
     setEditing({
@@ -102,13 +112,8 @@ export function SavedWaybillsSidebar({
   };
 
   const handleDelete = (id: number | string) => {
-    if (deleteConfirmId === id) {
-      onDelete(id);
-      setDeleteConfirmId(null);
-    } else {
-      setDeleteConfirmId(id);
-      setTimeout(() => setDeleteConfirmId(null), 3000);
-    }
+    onDelete(id);
+    setDeleteConfirmId(null);
   };
 
   if (!isOpen) return null;
@@ -149,7 +154,9 @@ export function SavedWaybillsSidebar({
                     <WaybillEditForm
                       initialData={editing.data}
                       couriers={couriers}
-                      onChange={(data) => setEditing((prev) => ({ ...prev, data }))}
+                      onChange={(data) =>
+                        setEditing((prev) => ({ ...prev, data }))
+                      }
                       onSave={handleSaveEdit}
                       onCancel={handleCancelEdit}
                     />
