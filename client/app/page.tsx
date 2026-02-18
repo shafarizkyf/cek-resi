@@ -286,12 +286,12 @@ export default function Home() {
 
         <footer className="mt-12 pt-6 border-t border-slate-200 text-center text-xs text-slate-500">
           <p>
-            This service uses a third-party API to track shipments. No tracking
-            data is stored on our servers.
+            Layanan ini menggunakan API pihak ketiga untuk melacak pengiriman.
+            Data resi hanya akan disimpan apabila Anda mengaktifkan notifikasi.
           </p>
           <p className="mt-1">
-            The backend server acts only as a proxy to communicate with the
-            third-party provider.
+            Server backend hanya berfungsi sebagai perantara untuk berkomunikasi
+            dengan penyedia layanan pihak ketiga.
           </p>
         </footer>
       </div>
