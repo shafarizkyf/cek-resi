@@ -1,15 +1,9 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { LocalWaybill } from "@/types";
 
-export interface SavedWaybill {
-  id: string;
-  awb: string;
-  courier: string;
-  phoneNumber?: string;
-  createdAt: string;
-  lastCheckedAt?: string;
-}
+export type { LocalWaybill };
 
 const STORAGE_KEY = "cek-resi-saved-waybills";
 
@@ -18,7 +12,7 @@ function generateId(): string {
 }
 
 export function useSavedWaybills() {
-  const [waybills, setWaybills] = useState<SavedWaybill[]>([]);
+  const [waybills, setWaybills] = useState<LocalWaybill[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
@@ -40,8 +34,8 @@ export function useSavedWaybills() {
   }, [waybills, isLoaded]);
 
   const saveWaybill = useCallback(
-    (waybill: Omit<SavedWaybill, "id" | "createdAt">) => {
-      const newWaybill: SavedWaybill = {
+    (waybill: Omit<LocalWaybill, "id" | "createdAt">) => {
+      const newWaybill: LocalWaybill = {
         ...waybill,
         id: generateId(),
         createdAt: new Date().toISOString(),
@@ -53,7 +47,7 @@ export function useSavedWaybills() {
   );
 
   const updateWaybill = useCallback(
-    (id: string, updates: Partial<Omit<SavedWaybill, "id" | "createdAt">>) => {
+    (id: string, updates: Partial<Omit<LocalWaybill, "id" | "createdAt">>) => {
       setWaybills((prev) =>
         prev.map((wb) => (wb.id === id ? { ...wb, ...updates } : wb))
       );

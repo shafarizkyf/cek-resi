@@ -1,41 +1,53 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { X, Trash2, Edit2, Check, Clock, Calendar } from "lucide-react";
-import { SavedWaybill } from "@/hooks/useSavedWaybills";
-import { Courier } from "@/types";
+import { X, Loader2 } from "lucide-react";
+import { Courier, Waybill, LocalWaybill } from "@/types";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { WaybillItem } from "./WaybillItem";
+import { WaybillEditForm } from "./WaybillEditForm";
+
+export type WaybillData = Waybill | LocalWaybill;
 
 interface SavedWaybillsSidebarProps {
   isOpen: boolean;
   onClose: () => void;
-  waybills: SavedWaybill[];
-  onDelete: (id: string) => void;
-  onUpdate: (id: string, updates: Partial<SavedWaybill>) => void;
-  onSelect: (waybill: SavedWaybill) => void;
+  waybills: WaybillData[];
+  isLoading?: boolean;
+  onDelete: (id: number | string) => void;
+  onUpdate: (id: number | string, data: Partial<WaybillData>) => void;
+  onTogglePolling: (id: number | string) => void;
+  onSelect: (waybill: WaybillData) => void;
   couriers: Courier[];
+}
+
+interface EditingState {
+  id: number | string | null;
+  data: {
+    awb: string;
+    courier: string;
+    phoneNumber: string;
+  };
 }
 
 export function SavedWaybillsSidebar({
   isOpen,
   onClose,
   waybills,
+  isLoading,
   onDelete,
   onUpdate,
+  onTogglePolling,
   onSelect,
   couriers,
 }: SavedWaybillsSidebarProps) {
-  const [editingId, setEditingId] = useState<string | null>(null);
-  const [editForm, setEditForm] = useState<Partial<SavedWaybill>>({});
-  const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
+  const [editing, setEditing] = useState<EditingState>({
+    id: null,
+    data: { awb: "", courier: "", phoneNumber: "" },
+  });
+  const [deleteConfirmId, setDeleteConfirmId] = useState<
+    number | string | null
+  >(null);
 
   useEffect(() => {
     if (isOpen) {
@@ -48,53 +60,46 @@ export function SavedWaybillsSidebar({
     };
   }, [isOpen]);
 
-  const getCourierName = (code: string) => {
-    const courier = couriers.find((c) => c.code === code);
-    return courier?.description || code;
-  };
+  const getPhoneNumber = (waybill: WaybillData): string | null | undefined =>
+    waybill.phoneNumber;
+  const getCreatedAt = (waybill: WaybillData): string | null | undefined =>
+    waybill.createdAt;
+  const getLastCheckedAt = (waybill: WaybillData): string | null | undefined =>
+    waybill.lastCheckedAt;
+  const getPollingEnabled = (waybill: WaybillData) =>
+    "pollingEnabled" in waybill ? waybill.pollingEnabled : false;
+  const getHasUpdate = (waybill: WaybillData) =>
+    "hasUpdate" in waybill ? waybill.hasUpdate : false;
 
-  const formatDate = (dateString?: string) => {
-    if (!dateString) return "-";
-    const date = new Date(dateString);
-    return date.toLocaleDateString("id-ID", {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
+  const handleStartEdit = (waybill: WaybillData) => {
+    setEditing({
+      id: waybill.id,
+      data: {
+        awb: waybill.awb,
+        courier: waybill.courier,
+        phoneNumber: getPhoneNumber(waybill) || "",
+      },
     });
   };
 
-  const handleStartEdit = (waybill: SavedWaybill) => {
-    setEditingId(waybill.id);
-    setEditForm({
-      awb: waybill.awb,
-      courier: waybill.courier,
-      phoneNumber: waybill.phoneNumber,
-    });
-  };
-
-  const handleSaveEdit = (id: string) => {
-    if (editForm.awb && editForm.courier) {
-      onUpdate(id, editForm);
-      setEditingId(null);
-      setEditForm({});
+  const handleSaveEdit = () => {
+    if (editing.id && editing.data.awb && editing.data.courier) {
+      onUpdate(editing.id, {
+        awb: editing.data.awb,
+        courier: editing.data.courier,
+        phoneNumber: editing.data.phoneNumber,
+      });
+      setEditing({ id: null, data: { awb: "", courier: "", phoneNumber: "" } });
     }
   };
 
   const handleCancelEdit = () => {
-    setEditingId(null);
-    setEditForm({});
+    setEditing({ id: null, data: { awb: "", courier: "", phoneNumber: "" } });
   };
 
-  const handleDelete = (id: string) => {
-    if (deleteConfirmId === id) {
-      onDelete(id);
-      setDeleteConfirmId(null);
-    } else {
-      setDeleteConfirmId(id);
-      setTimeout(() => setDeleteConfirmId(null), 3000);
-    }
+  const handleDelete = (id: number | string) => {
+    onDelete(id);
+    setDeleteConfirmId(null);
   };
 
   if (!isOpen) return null;
@@ -111,7 +116,11 @@ export function SavedWaybillsSidebar({
         </div>
 
         <div className="flex-1 overflow-y-auto p-4">
-          {waybills.length === 0 ? (
+          {isLoading ? (
+            <div className="flex items-center justify-center py-8">
+              <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+            </div>
+          ) : waybills.length === 0 ? (
             <div className="text-center text-muted-foreground py-8">
               <p>Belum ada resi tersimpan</p>
               <p className="text-sm mt-1">
@@ -121,125 +130,51 @@ export function SavedWaybillsSidebar({
           ) : (
             <div className="space-y-3">
               {waybills.map((waybill) => (
-                <div key={waybill.id} className="border rounded-lg p-3 bg-card">
-                  {editingId === waybill.id ? (
-                    <div className="space-y-3">
-                      <Input
-                        value={editForm.awb || ""}
-                        onChange={(e) =>
-                          setEditForm((prev) => ({
-                            ...prev,
-                            awb: e.target.value,
-                          }))
-                        }
-                        placeholder="Nomor Resi"
-                      />
-                      <Select
-                        value={editForm.courier}
-                        onValueChange={(value) =>
-                          setEditForm((prev) => ({ ...prev, courier: value }))
-                        }
-                      >
-                        <SelectTrigger>
-                          <SelectValue placeholder="Pilih Kurir" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {couriers.map((courier) => (
-                            <SelectItem key={courier.code} value={courier.code}>
-                              {courier.description}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <Input
-                        value={editForm.phoneNumber || ""}
-                        onChange={(e) =>
-                          setEditForm((prev) => ({
-                            ...prev,
-                            phoneNumber: e.target.value,
-                          }))
-                        }
-                        placeholder="No. Telepon (opsional)"
-                      />
-                      <div className="flex gap-2">
-                        <Button
-                          size="sm"
-                          onClick={() => handleSaveEdit(waybill.id)}
-                          className="flex-1"
-                        >
-                          <Check className="h-4 w-4 mr-1" />
-                          Simpan
-                        </Button>
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={handleCancelEdit}
-                        >
-                          Batal
-                        </Button>
-                      </div>
-                    </div>
+                <div
+                  key={waybill.id}
+                  className={`border rounded-lg p-3 bg-card ${
+                    getHasUpdate(waybill) ? "border-green-500 border-2" : ""
+                  }`}
+                >
+                  {editing.id === waybill.id ? (
+                    <WaybillEditForm
+                      initialData={editing.data}
+                      couriers={couriers}
+                      onChange={(data) =>
+                        setEditing((prev) => ({ ...prev, data }))
+                      }
+                      onSave={handleSaveEdit}
+                      onCancel={handleCancelEdit}
+                    />
                   ) : (
-                    <>
-                      <div className="flex items-start justify-between">
-                        <div
-                          className="cursor-pointer flex-1"
-                          onClick={() => onSelect(waybill)}
-                        >
-                          <p className="font-medium text-sm">{waybill.awb}</p>
-                          <p className="text-xs text-muted-foreground">
-                            {getCourierName(waybill.courier)}
-                          </p>
-                        </div>
-                        <div className="flex gap-1">
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="h-8 w-8"
-                            onClick={() => handleStartEdit(waybill)}
-                          >
-                            <Edit2 className="h-4 w-4" />
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className={`h-8 w-8 ${
-                              deleteConfirmId === waybill.id
-                                ? "text-red-500 hover:text-red-600"
-                                : ""
-                            }`}
-                            onClick={() => handleDelete(waybill.id)}
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </div>
-                      <div className="mt-2 flex items-center gap-4 text-xs text-muted-foreground">
-                        <span className="flex items-center gap-1">
-                          <Calendar className="h-3 w-3" />
-                          {formatDate(waybill.createdAt)}
-                        </span>
-                        {waybill.lastCheckedAt && (
-                          <span className="flex items-center gap-1">
-                            <Clock className="h-3 w-3" />
-                            Terakhir: {formatDate(waybill.lastCheckedAt)}
-                          </span>
-                        )}
-                      </div>
-                      {waybill.phoneNumber && (
-                        <p className="text-xs text-muted-foreground mt-1">
-                          Telp: {waybill.phoneNumber}
-                        </p>
-                      )}
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        className="w-full mt-2"
-                        onClick={() => onSelect(waybill)}
-                      >
-                        Lacak Sekarang
-                      </Button>
-                    </>
+                    <WaybillItem
+                      waybill={waybill}
+                      getCourierName={(code) => {
+                        const courier = couriers.find((c) => c.code === code);
+                        return courier?.description || code;
+                      }}
+                      formatDate={(dateString) => {
+                        if (!dateString) return "-";
+                        const date = new Date(dateString);
+                        return date.toLocaleDateString("id-ID", {
+                          day: "numeric",
+                          month: "short",
+                          year: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        });
+                      }}
+                      getPhoneNumber={getPhoneNumber}
+                      getCreatedAt={getCreatedAt}
+                      getLastCheckedAt={getLastCheckedAt}
+                      getPollingEnabled={getPollingEnabled}
+                      getHasUpdate={getHasUpdate}
+                      isDeleteConfirm={deleteConfirmId === waybill.id}
+                      onTogglePolling={() => onTogglePolling(waybill.id)}
+                      onEdit={() => handleStartEdit(waybill)}
+                      onDelete={() => handleDelete(waybill.id)}
+                      onSelect={() => onSelect(waybill)}
+                    />
                   )}
                 </div>
               ))}
