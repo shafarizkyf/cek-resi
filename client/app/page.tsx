@@ -18,8 +18,12 @@ import { useSavedWaybills, SavedWaybill } from "@/hooks/useSavedWaybills";
 import { TrackingHeader } from "@/components/TrackingHeader";
 import { TrackingForm } from "@/components/TrackingForm";
 import { TrackingResult } from "@/components/TrackingResult";
-import { SavedWaybillsSidebar } from "@/components/SavedWaybillsSidebar";
+import {
+  SavedWaybillsSidebar,
+  WaybillData,
+} from "@/components/SavedWaybillsSidebar";
 import { LoginModal } from "@/components/LoginModal";
+import { ConfirmDialog } from "@/components/ConfirmDialog";
 import { GithubIcon } from "@/components/GithubIcon";
 import { Button } from "@/components/ui/button";
 import { LogOut, User } from "lucide-react";
@@ -35,6 +39,16 @@ export default function Home() {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [loginPrompted, setLoginPrompted] = useState(false);
 
+  // Delete confirmation dialog
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
+  const [deleteTargetId, setDeleteTargetId] = useState<number | string | null>(
+    null
+  );
+
+  // Import confirmation dialog
+  const [importConfirmOpen, setImportConfirmOpen] = useState(false);
+  const [importData, setImportData] = useState<any[]>([]);
+
   const { data: couriers = [], isLoading: couriersLoading } = useCouriers();
 
   // Use DB waybills if logged in, otherwise use localStorage
@@ -42,7 +56,10 @@ export default function Home() {
   const canUseDb = isLoggedIn && !authLoading;
 
   // Database waybills (when logged in)
-  const { data: dbWaybills = [], isLoading: dbWaybillsLoading } = useWaybills(false, canUseDb);
+  const { data: dbWaybills = [], isLoading: dbWaybillsLoading } = useWaybills(
+    false,
+    canUseDb
+  );
   const createWaybill = useCreateWaybill();
   const updateWaybill = useUpdateWaybill();
   const deleteWaybill = useDeleteWaybill();
@@ -63,7 +80,9 @@ export default function Home() {
   const waybills = isLoggedIn ? dbWaybills : localWaybills;
   const waybillsLoading = isLoggedIn ? dbWaybillsLoading : false;
   const isSaved = isLoggedIn
-    ? dbWaybills.some((wb) => wb.awb === awbNumber && wb.courier === selectedCourier)
+    ? dbWaybills.some(
+        (wb) => wb.awb === awbNumber && wb.courier === selectedCourier
+      )
     : isLocalWaybillSaved(awbNumber, selectedCourier);
 
   const {
@@ -81,14 +100,8 @@ export default function Home() {
         try {
           const localWaybillsData = JSON.parse(stored);
           if (localWaybillsData.length > 0) {
-            const shouldImport = window.confirm(
-              `Anda memiliki ${localWaybillsData.length} resi tersimpan di browser. Ingin impor ke akun Anda?`
-            );
-            if (shouldImport) {
-              importWaybills.mutate(localWaybillsData);
-              updateHasWaybills(true);
-              localStorage.removeItem(STORAGE_KEY);
-            }
+            setImportData(localWaybillsData);
+            setImportConfirmOpen(true);
           }
         } catch {
           // Invalid JSON, ignore
@@ -97,6 +110,16 @@ export default function Home() {
       setLoginPrompted(true);
     }
   }, [user, loginPrompted, importWaybills, updateHasWaybills]);
+
+  const handleImportConfirm = () => {
+    if (importData.length > 0) {
+      importWaybills.mutate(importData);
+      updateHasWaybills(true);
+      localStorage.removeItem(STORAGE_KEY);
+    }
+    setImportConfirmOpen(false);
+    setImportData([]);
+  };
 
   const handleTrack = async () => {
     if (!awbNumber || !selectedCourier) return;
@@ -137,10 +160,16 @@ export default function Home() {
     }
   };
 
-  const handleSelectWaybill = (waybill: Waybill | SavedWaybill) => {
+  const handleSelectWaybill = (
+    waybill: Waybill | SavedWaybill | WaybillData
+  ) => {
     setAwbNumber(waybill.awb);
     setSelectedCourier(waybill.courier);
-    setPhoneNumber("phone_number" in waybill ? waybill.phone_number || "" : waybill.phoneNumber || "");
+    setPhoneNumber(
+      "phone_number" in waybill
+        ? waybill.phone_number || ""
+        : waybill.phoneNumber || ""
+    );
     setIsSidebarOpen(false);
 
     setTimeout(async () => {
@@ -158,14 +187,21 @@ export default function Home() {
     }, 100);
   };
 
-  const handleDeleteWaybill = async (id: number | string) => {
-    if (!window.confirm("Yakin ingin menghapus resi ini?")) return;
+  const handleDeleteClick = (id: number | string) => {
+    setDeleteTargetId(id);
+    setDeleteConfirmOpen(true);
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (deleteTargetId === null) return;
 
     if (isLoggedIn) {
-      await deleteWaybill.mutateAsync(Number(id));
+      await deleteWaybill.mutateAsync(Number(deleteTargetId));
     } else {
-      deleteLocalWaybill(String(id));
+      deleteLocalWaybill(String(deleteTargetId));
     }
+    setDeleteConfirmOpen(false);
+    setDeleteTargetId(null);
   };
 
   const handleTogglePolling = async (id: number | string) => {
@@ -207,14 +243,20 @@ export default function Home() {
           <div className="flex items-center gap-4">
             {isLoggedIn ? (
               <>
-                <span className="text-sm text-muted-foreground">{user?.email}</span>
+                <span className="text-sm text-muted-foreground">
+                  {user?.email}
+                </span>
                 <Button variant="outline" size="sm" onClick={signOut}>
                   <LogOut className="h-4 w-4 mr-2" />
                   Keluar
                 </Button>
               </>
             ) : (
-              <Button variant="outline" size="sm" onClick={handleOpenLoginModal}>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleOpenLoginModal}
+              >
                 <User className="h-4 w-4 mr-2" />
                 Masuk
               </Button>
@@ -227,7 +269,9 @@ export default function Home() {
         <TrackingForm
           couriers={couriers}
           couriersLoading={couriersLoading}
-          trackingLoading={trackingLoading || (isLoggedIn && checkWaybill.isPending)}
+          trackingLoading={
+            trackingLoading || (isLoggedIn && checkWaybill.isPending)
+          }
           awbNumber={awbNumber}
           selectedCourier={selectedCourier}
           phoneNumber={phoneNumber}
@@ -262,7 +306,7 @@ export default function Home() {
         onClose={() => setIsSidebarOpen(false)}
         waybills={waybills}
         isLoading={waybillsLoading}
-        onDelete={handleDeleteWaybill}
+        onDelete={handleDeleteClick}
         onUpdate={handleUpdateWaybill}
         onTogglePolling={handleTogglePolling}
         onSelect={handleSelectWaybill}
@@ -272,6 +316,26 @@ export default function Home() {
       <LoginModal
         isOpen={isLoginModalOpen}
         onClose={() => setIsLoginModalOpen(false)}
+      />
+
+      <ConfirmDialog
+        open={deleteConfirmOpen}
+        onOpenChange={setDeleteConfirmOpen}
+        onConfirm={handleDeleteConfirm}
+        title="Hapus Resi"
+        description="Yakin ingin menghapus resi ini? Tindakan ini tidak dapat dibatalkan."
+        confirmText="Hapus"
+        cancelText="Batal"
+      />
+
+      <ConfirmDialog
+        open={importConfirmOpen}
+        onOpenChange={setImportConfirmOpen}
+        onConfirm={handleImportConfirm}
+        title="Impor Resi"
+        description={`Anda memiliki ${importData.length} resi tersimpan di browser. Ingin impor ke akun Anda?`}
+        confirmText="Impor"
+        cancelText="Lewati"
       />
     </main>
   );

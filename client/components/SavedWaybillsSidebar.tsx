@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { WaybillItem } from "./WaybillItem";
 import { WaybillEditForm } from "./WaybillEditForm";
 
-interface WaybillData {
+export interface WaybillData {
   id: number | string;
   awb: string;
   courier: string;
