@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { X, Trash2, Edit2, Check, Clock, Calendar } from "lucide-react";
-import { SavedWaybill } from "@/hooks/useSavedWaybills";
+import { X, Trash2, Edit2, Check, Clock, Calendar, Bell, BellOff, Loader2 } from "lucide-react";
+import { Waybill } from "@/hooks/useWaybills";
 import { Courier } from "@/types";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,10 +17,12 @@ import {
 interface SavedWaybillsSidebarProps {
   isOpen: boolean;
   onClose: () => void;
-  waybills: SavedWaybill[];
-  onDelete: (id: string) => void;
-  onUpdate: (id: string, updates: Partial<SavedWaybill>) => void;
-  onSelect: (waybill: SavedWaybill) => void;
+  waybills: Waybill[];
+  isLoading?: boolean;
+  onDelete: (id: number) => void;
+  onUpdate: (id: number, data: Partial<Waybill>) => void;
+  onTogglePolling: (id: number) => void;
+  onSelect: (waybill: Waybill) => void;
   couriers: Courier[];
 }
 
@@ -28,14 +30,16 @@ export function SavedWaybillsSidebar({
   isOpen,
   onClose,
   waybills,
+  isLoading,
   onDelete,
   onUpdate,
+  onTogglePolling,
   onSelect,
   couriers,
 }: SavedWaybillsSidebarProps) {
-  const [editingId, setEditingId] = useState<string | null>(null);
-  const [editForm, setEditForm] = useState<Partial<SavedWaybill>>({});
-  const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [editForm, setEditForm] = useState<Partial<Waybill>>({});
+  const [deleteConfirmId, setDeleteConfirmId] = useState<number | null>(null);
 
   useEffect(() => {
     if (isOpen) {
@@ -53,7 +57,7 @@ export function SavedWaybillsSidebar({
     return courier?.description || code;
   };
 
-  const formatDate = (dateString?: string) => {
+  const formatDate = (dateString?: string | null) => {
     if (!dateString) return "-";
     const date = new Date(dateString);
     return date.toLocaleDateString("id-ID", {
@@ -65,18 +69,22 @@ export function SavedWaybillsSidebar({
     });
   };
 
-  const handleStartEdit = (waybill: SavedWaybill) => {
+  const handleStartEdit = (waybill: Waybill) => {
     setEditingId(waybill.id);
     setEditForm({
       awb: waybill.awb,
       courier: waybill.courier,
-      phoneNumber: waybill.phoneNumber,
+      phone_number: waybill.phone_number,
     });
   };
 
-  const handleSaveEdit = (id: string) => {
+  const handleSaveEdit = (id: number) => {
     if (editForm.awb && editForm.courier) {
-      onUpdate(id, editForm);
+      onUpdate(id, {
+        awb: editForm.awb,
+        courier: editForm.courier,
+        phone_number: editForm.phone_number,
+      });
       setEditingId(null);
       setEditForm({});
     }
@@ -87,7 +95,7 @@ export function SavedWaybillsSidebar({
     setEditForm({});
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = (id: number) => {
     if (deleteConfirmId === id) {
       onDelete(id);
       setDeleteConfirmId(null);
@@ -101,7 +109,10 @@ export function SavedWaybillsSidebar({
 
   return (
     <>
-      <div className="fixed inset-0 bg-black/30 z-40" onClick={onClose} />
+      <div
+        className="fixed inset-0 bg-black/30 z-40"
+        onClick={onClose}
+      />
       <div className="fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-xl z-50 transform transition-transform duration-300 ease-in-out flex flex-col">
         <div className="flex items-center justify-between p-4 border-b">
           <h2 className="text-lg font-semibold">Riwayat Resi</h2>
@@ -111,7 +122,11 @@ export function SavedWaybillsSidebar({
         </div>
 
         <div className="flex-1 overflow-y-auto p-4">
-          {waybills.length === 0 ? (
+          {isLoading ? (
+            <div className="flex items-center justify-center py-8">
+              <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+            </div>
+          ) : waybills.length === 0 ? (
             <div className="text-center text-muted-foreground py-8">
               <p>Belum ada resi tersimpan</p>
               <p className="text-sm mt-1">
@@ -121,16 +136,18 @@ export function SavedWaybillsSidebar({
           ) : (
             <div className="space-y-3">
               {waybills.map((waybill) => (
-                <div key={waybill.id} className="border rounded-lg p-3 bg-card">
+                <div
+                  key={waybill.id}
+                  className={`border rounded-lg p-3 bg-card ${
+                    waybill.has_update ? "border-green-500 border-2" : ""
+                  }`}
+                >
                   {editingId === waybill.id ? (
                     <div className="space-y-3">
                       <Input
                         value={editForm.awb || ""}
                         onChange={(e) =>
-                          setEditForm((prev) => ({
-                            ...prev,
-                            awb: e.target.value,
-                          }))
+                          setEditForm((prev) => ({ ...prev, awb: e.target.value }))
                         }
                         placeholder="Nomor Resi"
                       />
@@ -152,11 +169,11 @@ export function SavedWaybillsSidebar({
                         </SelectContent>
                       </Select>
                       <Input
-                        value={editForm.phoneNumber || ""}
+                        value={editForm.phone_number || ""}
                         onChange={(e) =>
                           setEditForm((prev) => ({
                             ...prev,
-                            phoneNumber: e.target.value,
+                            phone_number: e.target.value,
                           }))
                         }
                         placeholder="No. Telepon (opsional)"
@@ -196,6 +213,19 @@ export function SavedWaybillsSidebar({
                             variant="ghost"
                             size="icon"
                             className="h-8 w-8"
+                            onClick={() => onTogglePolling(waybill.id)}
+                            title={waybill.polling_enabled ? "Nonaktifkan notifikasi" : "Aktifkan notifikasi"}
+                          >
+                            {waybill.polling_enabled ? (
+                              <Bell className="h-4 w-4 text-green-500" />
+                            ) : (
+                              <BellOff className="h-4 w-4" />
+                            )}
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-8 w-8"
                             onClick={() => handleStartEdit(waybill)}
                           >
                             <Edit2 className="h-4 w-4" />
@@ -217,18 +247,23 @@ export function SavedWaybillsSidebar({
                       <div className="mt-2 flex items-center gap-4 text-xs text-muted-foreground">
                         <span className="flex items-center gap-1">
                           <Calendar className="h-3 w-3" />
-                          {formatDate(waybill.createdAt)}
+                          {formatDate(waybill.created_at)}
                         </span>
-                        {waybill.lastCheckedAt && (
+                        {waybill.last_checked_at && (
                           <span className="flex items-center gap-1">
                             <Clock className="h-3 w-3" />
-                            Terakhir: {formatDate(waybill.lastCheckedAt)}
+                            Terakhir: {formatDate(waybill.last_checked_at)}
                           </span>
                         )}
                       </div>
-                      {waybill.phoneNumber && (
+                      {waybill.phone_number && (
                         <p className="text-xs text-muted-foreground mt-1">
-                          Telp: {waybill.phoneNumber}
+                          Telp: {waybill.phone_number}
+                        </p>
+                      )}
+                      {waybill.has_update && (
+                        <p className="text-xs text-green-600 font-medium mt-1">
+                          Ada pembaruan status!
                         </p>
                       )}
                       <Button

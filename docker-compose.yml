@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   nginx:
     build: ./nginx
@@ -12,6 +14,9 @@ services:
     build: ./server
     env_file:
       - ./server/.env
+    depends_on:
+      mysql:
+        condition: service_healthy
     restart: unless-stopped
 
   client:
@@ -22,3 +27,22 @@ services:
       - PORT=3000
       - NEXT_PUBLIC_API_URL=/api
     restart: unless-stopped
+
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootpassword}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-cek_resi}
+      MYSQL_USER: ${MYSQL_USER:-cek_resi}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-cek_resi_password}
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./mysql/init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  mysql_data:
