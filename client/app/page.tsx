@@ -1,19 +1,31 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useCouriers } from "@/hooks/useCouriers";
 import { useTracking } from "@/hooks/useTracking";
+import { useSavedWaybills, SavedWaybill } from "@/hooks/useSavedWaybills";
 import { TrackingHeader } from "@/components/TrackingHeader";
 import { TrackingForm } from "@/components/TrackingForm";
 import { TrackingResult } from "@/components/TrackingResult";
+import { SavedWaybillsSidebar } from "@/components/SavedWaybillsSidebar";
 import { GithubIcon } from "@/components/GithubIcon";
 
 export default function Home() {
   const [awbNumber, setAwbNumber] = useState("");
   const [selectedCourier, setSelectedCourier] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const { data: couriers = [], isLoading: couriersLoading } = useCouriers();
+  const {
+    waybills,
+    saveWaybill,
+    updateWaybill,
+    deleteWaybill,
+    markAsChecked,
+    isWaybillSaved,
+  } = useSavedWaybills();
+
   const {
     data: trackingData,
     isLoading: trackingLoading,
@@ -21,10 +33,39 @@ export default function Home() {
     refetch,
   } = useTracking(selectedCourier, awbNumber, phoneNumber);
 
+  const isCurrentWaybillSaved = isWaybillSaved(awbNumber, selectedCourier);
+
   const handleTrack = () => {
     if (awbNumber && selectedCourier) {
+      const existingWaybill = waybills.find(
+        (wb) => wb.awb === awbNumber && wb.courier === selectedCourier
+      );
+      if (existingWaybill) {
+        markAsChecked(existingWaybill.id);
+      }
       refetch();
     }
+  };
+
+  const handleSave = () => {
+    if (awbNumber && selectedCourier) {
+      saveWaybill({
+        awb: awbNumber,
+        courier: selectedCourier,
+        phoneNumber: phoneNumber || undefined,
+      });
+    }
+  };
+
+  const handleSelectWaybill = (waybill: SavedWaybill) => {
+    setAwbNumber(waybill.awb);
+    setSelectedCourier(waybill.courier);
+    setPhoneNumber(waybill.phoneNumber || "");
+    setIsSidebarOpen(false);
+    setTimeout(() => {
+      markAsChecked(waybill.id);
+      refetch();
+    }, 100);
   };
 
   return (
@@ -49,10 +90,13 @@ export default function Home() {
           selectedCourier={selectedCourier}
           phoneNumber={phoneNumber}
           error={error}
+          isSaved={isCurrentWaybillSaved}
           onAwbChange={setAwbNumber}
           onCourierChange={setSelectedCourier}
           onPhoneNumberChange={setPhoneNumber}
           onTrack={handleTrack}
+          onSave={handleSave}
+          onOpenHistory={() => setIsSidebarOpen(true)}
         />
 
         {trackingData && !trackingLoading && (
@@ -70,6 +114,16 @@ export default function Home() {
           </p>
         </footer>
       </div>
+
+      <SavedWaybillsSidebar
+        isOpen={isSidebarOpen}
+        onClose={() => setIsSidebarOpen(false)}
+        waybills={waybills}
+        onDelete={deleteWaybill}
+        onUpdate={updateWaybill}
+        onSelect={handleSelectWaybill}
+        couriers={couriers}
+      />
     </main>
   );
 }

@@ -1,4 +1,4 @@
-import { Search } from 'lucide-react';
+import { Search, Save, History } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -25,10 +25,13 @@ interface TrackingFormProps {
   selectedCourier: string;
   phoneNumber?: string;
   error?: Error | null;
+  isSaved?: boolean;
   onAwbChange: (value: string) => void;
   onCourierChange: (value: string) => void;
   onPhoneNumberChange?: (value: string) => void;
   onTrack: () => void;
+  onSave?: () => void;
+  onOpenHistory?: () => void;
 }
 
 export function TrackingForm({
@@ -39,10 +42,13 @@ export function TrackingForm({
   selectedCourier,
   phoneNumber,
   error,
+  isSaved,
   onAwbChange,
   onCourierChange,
   onPhoneNumberChange,
   onTrack,
+  onSave,
+  onOpenHistory,
 }: TrackingFormProps) {
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
@@ -94,20 +100,37 @@ export function TrackingForm({
             className="flex-1"
           />
         </div>
-        <Button
-          onClick={onTrack}
-          disabled={isDisabled}
-          className="w-full"
-        >
-          {trackingLoading ? (
-            'Mencari...'
-          ) : (
-            <>
-              <Search className="mr-2 h-4 w-4" />
-              Lacak
-            </>
+        <div className="flex gap-2">
+          <Button
+            onClick={onTrack}
+            disabled={isDisabled}
+            className="flex-1"
+          >
+            {trackingLoading ? (
+              'Mencari...'
+            ) : (
+              <>
+                <Search className="mr-2 h-4 w-4" />
+                Lacak
+              </>
+            )}
+          </Button>
+          {onSave && (
+            <Button
+              variant="outline"
+              onClick={onSave}
+              disabled={!awbNumber || !selectedCourier || isSaved}
+              title={isSaved ? 'Resi sudah tersimpan' : 'Simpan ke riwayat'}
+            >
+              <Save className="h-4 w-4" />
+            </Button>
           )}
-        </Button>
+          {onOpenHistory && (
+            <Button variant="outline" onClick={onOpenHistory} title="Lihat riwayat">
+              <History className="h-4 w-4" />
+            </Button>
+          )}
+        </div>
         {error && (
           <p className="text-sm text-red-500">
             {error instanceof Error ? error.message : 'Terjadi kesalahan'}
