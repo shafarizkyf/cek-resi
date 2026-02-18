@@ -2,22 +2,9 @@
 
 import { Trash2, Edit2, Clock, Calendar, Bell, BellOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Waybill, LocalWaybill } from "@/types";
 
-interface WaybillData {
-  id: number | string;
-  awb: string;
-  courier: string;
-  phone_number?: string | null;
-  phoneNumber?: string | null;
-  created_at?: string | null;
-  createdAt?: string | null;
-  last_checked_at?: string | null;
-  lastCheckedAt?: string | null;
-  polling_enabled?: boolean;
-  pollingEnabled?: boolean;
-  has_update?: boolean;
-  hasUpdate?: boolean;
-}
+export type WaybillData = Waybill | LocalWaybill;
 
 interface WaybillItemProps {
   waybill: WaybillData;

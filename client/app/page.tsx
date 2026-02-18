@@ -14,7 +14,8 @@ import {
   useImportWaybills,
   Waybill,
 } from "@/hooks/useWaybills";
-import { useSavedWaybills, SavedWaybill } from "@/hooks/useSavedWaybills";
+import { useSavedWaybills } from "@/hooks/useSavedWaybills";
+import { LocalWaybill } from "@/types";
 import { TrackingHeader } from "@/components/TrackingHeader";
 import { TrackingForm } from "@/components/TrackingForm";
 import { TrackingResult } from "@/components/TrackingResult";
@@ -129,14 +130,14 @@ export default function Home() {
         (wb) => wb.awb === awbNumber && wb.courier === selectedCourier
       );
       if (existingWaybill) {
-        await checkWaybill.mutateAsync(existingWaybill.id);
+        await checkWaybill.mutateAsync(Number(existingWaybill.id));
       }
     } else {
       const existingWaybill = localWaybills.find(
         (wb) => wb.awb === awbNumber && wb.courier === selectedCourier
       );
       if (existingWaybill) {
-        markLocalAsChecked(existingWaybill.id);
+        markLocalAsChecked(String(existingWaybill.id));
       }
     }
     refetch();
@@ -160,16 +161,10 @@ export default function Home() {
     }
   };
 
-  const handleSelectWaybill = (
-    waybill: Waybill | SavedWaybill | WaybillData
-  ) => {
+  const handleSelectWaybill = (waybill: Waybill | LocalWaybill) => {
     setAwbNumber(waybill.awb);
     setSelectedCourier(waybill.courier);
-    setPhoneNumber(
-      "phone_number" in waybill
-        ? waybill.phone_number || ""
-        : waybill.phoneNumber || ""
-    );
+    setPhoneNumber(waybill.phoneNumber || "");
     setIsSidebarOpen(false);
 
     setTimeout(async () => {

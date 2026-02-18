@@ -1,6 +1,7 @@
 "use client";
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { Waybill, WaybillBase } from "@/types";
 
 const getApiUrl = (path: string) => {
   const baseUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -21,23 +22,7 @@ const getAuthHeaders = async () => {
   };
 };
 
-export interface Waybill {
-  id: number;
-  user_id: string;
-  awb: string;
-  courier: string;
-  phone_number: string | null;
-  polling_enabled: boolean;
-  polling_interval_hours: number;
-  last_checked_at: string | null;
-  last_status: string | null;
-  status_detail: string | null;
-  has_update: boolean;
-  created_at: string;
-  updated_at: string;
-}
-
-export interface TrackingHistory {
+interface TrackingHistory {
   id: number;
   waybill_id: number;
   status: string | null;
@@ -46,6 +31,26 @@ export interface TrackingHistory {
   event_date: string | null;
   checked_at: string;
 }
+
+function mapApiWaybill(apiWaybill: any): Waybill {
+  return {
+    id: apiWaybill.id,
+    awb: apiWaybill.awb,
+    courier: apiWaybill.courier,
+    phoneNumber: apiWaybill.phone_number ?? null,
+    createdAt: apiWaybill.created_at ?? null,
+    lastCheckedAt: apiWaybill.last_checked_at ?? null,
+    userId: apiWaybill.user_id,
+    pollingEnabled: apiWaybill.polling_enabled ?? false,
+    pollingIntervalHours: apiWaybill.polling_interval_hours ?? 24,
+    lastStatus: apiWaybill.last_status ?? null,
+    statusDetail: apiWaybill.status_detail ?? null,
+    hasUpdate: apiWaybill.has_update ?? false,
+    updatedAt: apiWaybill.updated_at,
+  };
+}
+
+export type { Waybill, WaybillBase };
 
 export function useWaybills(pollingOnly = false, enabled = true) {
   return useQuery<Waybill[]>({
@@ -58,7 +63,7 @@ export function useWaybills(pollingOnly = false, enabled = true) {
       const res = await fetch(url, { headers });
       if (!res.ok) throw new Error('Failed to fetch waybills');
       const data = await res.json();
-      return data.data;
+      return data.data.map(mapApiWaybill);
     },
     enabled,
   });
@@ -94,10 +99,17 @@ export function useUpdateWaybill() {
   return useMutation({
     mutationFn: async ({ id, data }: { id: number; data: Partial<Waybill> }) => {
       const headers = await getAuthHeaders();
+      const apiData: Record<string, any> = {};
+      if (data.awb !== undefined) apiData.awb = data.awb;
+      if (data.courier !== undefined) apiData.courier = data.courier;
+      if (data.phoneNumber !== undefined) apiData.phone_number = data.phoneNumber;
+      if (data.pollingEnabled !== undefined) apiData.polling_enabled = data.pollingEnabled;
+      if (data.pollingIntervalHours !== undefined) apiData.polling_interval_hours = data.pollingIntervalHours;
+
       const res = await fetch(`${getApiUrl(`/api/waybills/${id}`)}`, {
         method: 'PUT',
         headers,
-        body: JSON.stringify(data),
+        body: JSON.stringify(apiData),
       });
       if (!res.ok) throw new Error('Failed to update waybill');
       const result = await res.json();

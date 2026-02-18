@@ -2,26 +2,12 @@
 
 import { useState, useEffect } from "react";
 import { X, Loader2 } from "lucide-react";
-import { Courier } from "@/types";
+import { Courier, Waybill, LocalWaybill } from "@/types";
 import { Button } from "@/components/ui/button";
 import { WaybillItem } from "./WaybillItem";
 import { WaybillEditForm } from "./WaybillEditForm";
 
-export interface WaybillData {
-  id: number | string;
-  awb: string;
-  courier: string;
-  phone_number?: string | null;
-  phoneNumber?: string | null;
-  created_at?: string | null;
-  createdAt?: string | null;
-  last_checked_at?: string | null;
-  lastCheckedAt?: string | null;
-  polling_enabled?: boolean;
-  pollingEnabled?: boolean;
-  has_update?: boolean;
-  hasUpdate?: boolean;
-}
+export type WaybillData = Waybill | LocalWaybill;
 
 interface SavedWaybillsSidebarProps {
   isOpen: boolean;
@@ -75,15 +61,15 @@ export function SavedWaybillsSidebar({
   }, [isOpen]);
 
   const getPhoneNumber = (waybill: WaybillData): string | null | undefined =>
-    waybill.phone_number || waybill.phoneNumber;
+    waybill.phoneNumber;
   const getCreatedAt = (waybill: WaybillData): string | null | undefined =>
-    waybill.created_at || waybill.createdAt;
+    waybill.createdAt;
   const getLastCheckedAt = (waybill: WaybillData): string | null | undefined =>
-    waybill.last_checked_at || waybill.lastCheckedAt;
+    waybill.lastCheckedAt;
   const getPollingEnabled = (waybill: WaybillData) =>
-    waybill.polling_enabled ?? waybill.pollingEnabled ?? false;
+    "pollingEnabled" in waybill ? waybill.pollingEnabled : false;
   const getHasUpdate = (waybill: WaybillData) =>
-    waybill.has_update ?? waybill.hasUpdate ?? false;
+    "hasUpdate" in waybill ? waybill.hasUpdate : false;
 
   const handleStartEdit = (waybill: WaybillData) => {
     setEditing({
