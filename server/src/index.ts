@@ -8,6 +8,8 @@ import trackingRouter from './routes/tracking';
 
 const app = express();
 
+app.set('trust proxy', 1);
+
 const limiter = rateLimit({
   windowMs: config.rateLimit.windowMs,
   max: config.rateLimit.maxRequests,
