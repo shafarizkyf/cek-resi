@@ -12,10 +12,10 @@ export function ShipmentInfo({ detail }: ShipmentInfoProps) {
         <p className="text-sm text-muted-foreground flex items-center gap-1">
           <MapPin className="h-3 w-3" /> Pengirim
         </p>
-        <p className="font-medium">
+        <p className="font-medium truncate">
           {detail.shipper || '-'}
         </p>
-        <p className="text-sm text-muted-foreground">
+        <p className="text-sm text-muted-foreground truncate">
           {detail.origin || '-'}
         </p>
       </div>
@@ -23,10 +23,10 @@ export function ShipmentInfo({ detail }: ShipmentInfoProps) {
         <p className="text-sm text-muted-foreground flex items-center gap-1">
           <MapPin className="h-3 w-3" /> Penerima
         </p>
-        <p className="font-medium">
+        <p className="font-medium truncate">
           {detail.receiver || '-'}
         </p>
-        <p className="text-sm text-muted-foreground">
+        <p className="text-sm text-muted-foreground truncate">
           {detail.destination || '-'}
         </p>
       </div>
