@@ -47,7 +47,7 @@ export interface TrackingHistory {
   checked_at: string;
 }
 
-export function useWaybills(pollingOnly = false) {
+export function useWaybills(pollingOnly = false, enabled = true) {
   return useQuery<Waybill[]>({
     queryKey: ['waybills', pollingOnly],
     queryFn: async () => {
@@ -60,6 +60,7 @@ export function useWaybills(pollingOnly = false) {
       const data = await res.json();
       return data.data;
     },
+    enabled,
   });
 }
 

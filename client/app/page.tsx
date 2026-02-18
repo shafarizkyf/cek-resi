@@ -37,8 +37,12 @@ export default function Home() {
 
   const { data: couriers = [], isLoading: couriersLoading } = useCouriers();
 
+  // Use DB waybills if logged in, otherwise use localStorage
+  const isLoggedIn = !!user;
+  const canUseDb = isLoggedIn && !authLoading;
+
   // Database waybills (when logged in)
-  const { data: dbWaybills = [], isLoading: dbWaybillsLoading } = useWaybills();
+  const { data: dbWaybills = [], isLoading: dbWaybillsLoading } = useWaybills(false, canUseDb);
   const createWaybill = useCreateWaybill();
   const updateWaybill = useUpdateWaybill();
   const deleteWaybill = useDeleteWaybill();
@@ -56,8 +60,6 @@ export default function Home() {
     isWaybillSaved: isLocalWaybillSaved,
   } = useSavedWaybills();
 
-  // Use DB waybills if logged in, otherwise use localStorage
-  const isLoggedIn = !!user;
   const waybills = isLoggedIn ? dbWaybills : localWaybills;
   const waybillsLoading = isLoggedIn ? dbWaybillsLoading : false;
   const isSaved = isLoggedIn
