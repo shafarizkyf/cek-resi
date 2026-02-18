@@ -21,7 +21,10 @@ import { useWaybillActions } from "@/hooks/useWaybillActions";
 import { TrackingHeader } from "@/components/TrackingHeader";
 import { TrackingForm } from "@/components/TrackingForm";
 import { TrackingResult } from "@/components/TrackingResult";
-import { SavedWaybillsSidebar, WaybillData } from "@/components/SavedWaybillsSidebar";
+import {
+  SavedWaybillsSidebar,
+  WaybillData,
+} from "@/components/SavedWaybillsSidebar";
 import { LoginModal } from "@/components/LoginModal";
 import { ConfirmDialog } from "@/components/ConfirmDialog";
 import { GithubIcon } from "@/components/GithubIcon";
@@ -40,7 +43,10 @@ export default function Home() {
   const isLoggedIn = !!user;
   const canUseDb = isLoggedIn && !authLoading;
 
-  const { data: dbWaybills = [], isLoading: dbWaybillsLoading } = useWaybills(false, canUseDb);
+  const { data: dbWaybills = [], isLoading: dbWaybillsLoading } = useWaybills(
+    false,
+    canUseDb
+  );
   const createWaybill = useCreateWaybill();
   const updateWaybill = useUpdateWaybill();
   const deleteWaybill = useDeleteWaybill();
@@ -53,14 +59,17 @@ export default function Home() {
   const waybills = isLoggedIn ? dbWaybills : localActions.waybills;
   const waybillsLoading = isLoggedIn ? dbWaybillsLoading : false;
   const isSaved = isLoggedIn
-    ? dbWaybills.some((wb) => wb.awb === form.awbNumber && wb.courier === form.selectedCourier)
+    ? dbWaybills.some(
+        (wb) => wb.awb === form.awbNumber && wb.courier === form.selectedCourier
+      )
     : localActions.isWaybillSaved(form.awbNumber, form.selectedCourier);
 
-  const { data: trackingData, isLoading: trackingLoading, error, refetch } = useTracking(
-    form.selectedCourier,
-    form.awbNumber,
-    form.phoneNumber
-  );
+  const {
+    data: trackingData,
+    isLoading: trackingLoading,
+    error,
+    refetch,
+  } = useTracking(form.selectedCourier, form.awbNumber, form.phoneNumber);
 
   const waybillActions = useWaybillActions({
     isLoggedIn,
@@ -117,7 +126,11 @@ export default function Home() {
   const handleSelectWaybillWrapper = (waybill: WaybillData) => {
     form.setAwbNumber(waybill.awb);
     form.setSelectedCourier(waybill.courier);
-    waybillActions.handleSelectWaybill(waybill, form.setPhoneNumber, ui.setIsSidebarOpen);
+    waybillActions.handleSelectWaybill(
+      waybill,
+      form.setPhoneNumber,
+      ui.setIsSidebarOpen
+    );
   };
 
   return (
@@ -135,14 +148,20 @@ export default function Home() {
           <div className="flex items-center gap-4">
             {isLoggedIn ? (
               <>
-                <span className="text-sm text-muted-foreground">{user?.email}</span>
+                <span className="text-sm text-muted-foreground">
+                  {user?.email}
+                </span>
                 <Button variant="outline" size="sm" onClick={signOut}>
                   <LogOut className="h-4 w-4 mr-2" />
                   Keluar
                 </Button>
               </>
             ) : (
-              <Button variant="outline" size="sm" onClick={() => ui.setIsLoginModalOpen(true)}>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => ui.setIsLoginModalOpen(true)}
+              >
                 <User className="h-4 w-4 mr-2" />
                 Masuk
               </Button>
@@ -155,7 +174,9 @@ export default function Home() {
         <TrackingForm
           couriers={couriers}
           couriersLoading={couriersLoading}
-          trackingLoading={trackingLoading || (isLoggedIn && checkWaybill.isPending)}
+          trackingLoading={
+            trackingLoading || (isLoggedIn && checkWaybill.isPending)
+          }
           awbNumber={form.awbNumber}
           selectedCourier={form.selectedCourier}
           phoneNumber={form.phoneNumber}
@@ -164,16 +185,32 @@ export default function Home() {
           onAwbChange={form.setAwbNumber}
           onCourierChange={form.setSelectedCourier}
           onPhoneNumberChange={form.setPhoneNumber}
-          onTrack={() => waybillActions.handleTrack(form.awbNumber, form.selectedCourier)}
-          onSave={() => waybillActions.handleSave(form.awbNumber, form.selectedCourier, form.phoneNumber)}
+          onTrack={() =>
+            waybillActions.handleTrack(form.awbNumber, form.selectedCourier)
+          }
+          onSave={() =>
+            waybillActions.handleSave(
+              form.awbNumber,
+              form.selectedCourier,
+              form.phoneNumber
+            )
+          }
           onOpenHistory={() => ui.setIsSidebarOpen(true)}
         />
 
-        {trackingData && !trackingLoading && <TrackingResult data={trackingData} />}
+        {trackingData && !trackingLoading && (
+          <TrackingResult data={trackingData} />
+        )}
 
         <footer className="mt-12 pt-6 border-t border-slate-200 text-center text-xs text-slate-500">
-          <p>Layanan ini menggunakan API pihak ketiga untuk melacak pengiriman.</p>
-          <p className="mt-1">Server backend hanya berfungsi sebagai perantara.</p>
+          <p>
+            Layanan ini menggunakan API pihak ketiga untuk melacak pengiriman.
+            Data resi hanya akan disimpan apabila Anda mengaktifkan notifikasi.
+          </p>
+          <p className="mt-1">
+            Server backend hanya berfungsi sebagai perantara untuk berkomunikasi
+            dengan penyedia layanan pihak ketiga.
+          </p>
         </footer>
       </div>
 
@@ -189,7 +226,10 @@ export default function Home() {
         couriers={couriers}
       />
 
-      <LoginModal isOpen={ui.isLoginModalOpen} onClose={() => ui.setIsLoginModalOpen(false)} />
+      <LoginModal
+        isOpen={ui.isLoginModalOpen}
+        onClose={() => ui.setIsLoginModalOpen(false)}
+      />
 
       <ConfirmDialog
         open={ui.deleteConfirmOpen}
