@@ -14,14 +14,15 @@ import {
   useImportWaybills,
   Waybill,
 } from "@/hooks/useWaybills";
+import { useSavedWaybills, SavedWaybill } from "@/hooks/useSavedWaybills";
 import { TrackingHeader } from "@/components/TrackingHeader";
 import { TrackingForm } from "@/components/TrackingForm";
 import { TrackingResult } from "@/components/TrackingResult";
 import { SavedWaybillsSidebar } from "@/components/SavedWaybillsSidebar";
-import { Login } from "@/components/Login";
+import { LoginModal } from "@/components/LoginModal";
 import { GithubIcon } from "@/components/GithubIcon";
 import { Button } from "@/components/ui/button";
-import { LogOut } from "lucide-react";
+import { LogOut, User } from "lucide-react";
 
 const STORAGE_KEY = "cek-resi-saved-waybills";
 
@@ -31,16 +32,37 @@ export default function Home() {
   const [selectedCourier, setSelectedCourier] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [importPrompted, setImportPrompted] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [loginPrompted, setLoginPrompted] = useState(false);
 
   const { data: couriers = [], isLoading: couriersLoading } = useCouriers();
-  const { data: waybills = [], isLoading: waybillsLoading } = useWaybills();
+
+  // Database waybills (when logged in)
+  const { data: dbWaybills = [], isLoading: dbWaybillsLoading } = useWaybills();
   const createWaybill = useCreateWaybill();
   const updateWaybill = useUpdateWaybill();
   const deleteWaybill = useDeleteWaybill();
   const togglePolling = useTogglePolling();
   const checkWaybill = useCheckWaybill();
   const importWaybills = useImportWaybills();
+
+  // LocalStorage waybills (when not logged in)
+  const {
+    waybills: localWaybills,
+    saveWaybill: saveLocalWaybill,
+    updateWaybill: updateLocalWaybill,
+    deleteWaybill: deleteLocalWaybill,
+    markAsChecked: markLocalAsChecked,
+    isWaybillSaved: isLocalWaybillSaved,
+  } = useSavedWaybills();
+
+  // Use DB waybills if logged in, otherwise use localStorage
+  const isLoggedIn = !!user;
+  const waybills = isLoggedIn ? dbWaybills : localWaybills;
+  const waybillsLoading = isLoggedIn ? dbWaybillsLoading : false;
+  const isSaved = isLoggedIn
+    ? dbWaybills.some((wb) => wb.awb === awbNumber && wb.courier === selectedCourier)
+    : isLocalWaybillSaved(awbNumber, selectedCourier);
 
   const {
     data: trackingData,
@@ -49,22 +71,19 @@ export default function Home() {
     refetch,
   } = useTracking(selectedCourier, awbNumber, phoneNumber);
 
-  const isCurrentWaybillSaved = waybills.some(
-    (wb) => wb.awb === awbNumber && wb.courier === selectedCourier
-  );
-
+  // Import localStorage to DB on first login
   useEffect(() => {
-    if (user && !user.hasWaybills && !importPrompted) {
+    if (user && !user.hasWaybills && !loginPrompted) {
       const stored = localStorage.getItem(STORAGE_KEY);
       if (stored) {
         try {
-          const localWaybills = JSON.parse(stored);
-          if (localWaybills.length > 0) {
+          const localWaybillsData = JSON.parse(stored);
+          if (localWaybillsData.length > 0) {
             const shouldImport = window.confirm(
-              `Anda memiliki ${localWaybills.length} resi tersimpan di browser. Ingin impor ke akun Anda?`
+              `Anda memiliki ${localWaybillsData.length} resi tersimpan di browser. Ingin impor ke akun Anda?`
             );
             if (shouldImport) {
-              importWaybills.mutate(localWaybills);
+              importWaybills.mutate(localWaybillsData);
               updateHasWaybills(true);
               localStorage.removeItem(STORAGE_KEY);
             }
@@ -73,25 +92,42 @@ export default function Home() {
           // Invalid JSON, ignore
         }
       }
-      setImportPrompted(true);
+      setLoginPrompted(true);
     }
-  }, [user, importPrompted, importWaybills, updateHasWaybills]);
+  }, [user, loginPrompted, importWaybills, updateHasWaybills]);
 
   const handleTrack = async () => {
-    if (awbNumber && selectedCourier) {
-      const existingWaybill = waybills.find(
+    if (!awbNumber || !selectedCourier) return;
+
+    if (isLoggedIn) {
+      const existingWaybill = dbWaybills.find(
         (wb) => wb.awb === awbNumber && wb.courier === selectedCourier
       );
       if (existingWaybill) {
         await checkWaybill.mutateAsync(existingWaybill.id);
       }
-      refetch();
+    } else {
+      const existingWaybill = localWaybills.find(
+        (wb) => wb.awb === awbNumber && wb.courier === selectedCourier
+      );
+      if (existingWaybill) {
+        markLocalAsChecked(existingWaybill.id);
+      }
     }
+    refetch();
   };
 
   const handleSave = async () => {
-    if (awbNumber && selectedCourier) {
+    if (!awbNumber || !selectedCourier) return;
+
+    if (isLoggedIn) {
       await createWaybill.mutateAsync({
+        awb: awbNumber,
+        courier: selectedCourier,
+        phoneNumber: phoneNumber || undefined,
+      });
+    } else {
+      saveLocalWaybill({
         awb: awbNumber,
         courier: selectedCourier,
         phoneNumber: phoneNumber || undefined,
@@ -99,46 +135,60 @@ export default function Home() {
     }
   };
 
-  const handleSelectWaybill = (waybill: Waybill) => {
+  const handleSelectWaybill = (waybill: Waybill | SavedWaybill) => {
     setAwbNumber(waybill.awb);
     setSelectedCourier(waybill.courier);
-    setPhoneNumber(waybill.phone_number || "");
+    setPhoneNumber("phone_number" in waybill ? waybill.phone_number || "" : waybill.phoneNumber || "");
     setIsSidebarOpen(false);
+
     setTimeout(async () => {
-      try {
-        await checkWaybill.mutateAsync(waybill.id);
+      if (isLoggedIn && "id" in waybill && typeof waybill.id === "number") {
+        try {
+          await checkWaybill.mutateAsync(waybill.id);
+          refetch();
+        } catch {
+          // Ignore
+        }
+      } else if (!isLoggedIn && "id" in waybill) {
+        markLocalAsChecked(String(waybill.id));
         refetch();
-      } catch {
-        // Ignore
       }
     }, 100);
   };
 
-  const handleDeleteWaybill = async (id: number) => {
-    if (window.confirm("Yakin ingin menghapus resi ini?")) {
-      await deleteWaybill.mutateAsync(id);
+  const handleDeleteWaybill = async (id: number | string) => {
+    if (!window.confirm("Yakin ingin menghapus resi ini?")) return;
+
+    if (isLoggedIn) {
+      await deleteWaybill.mutateAsync(Number(id));
+    } else {
+      deleteLocalWaybill(String(id));
     }
   };
 
-  const handleTogglePolling = async (id: number) => {
-    await togglePolling.mutateAsync(id);
+  const handleTogglePolling = async (id: number | string) => {
+    if (!isLoggedIn) {
+      setIsLoginModalOpen(true);
+      return;
+    }
+    await togglePolling.mutateAsync(Number(id));
   };
 
-  const handleUpdateWaybill = async (id: number, data: Partial<Waybill>) => {
-    await updateWaybill.mutateAsync({ id, data });
+  const handleUpdateWaybill = async (id: number | string, data: any) => {
+    if (isLoggedIn) {
+      await updateWaybill.mutateAsync({ id: Number(id), data });
+    } else {
+      updateLocalWaybill(String(id), {
+        awb: data.awb,
+        courier: data.courier || "",
+        phoneNumber: data.phoneNumber,
+      });
+    }
   };
 
-  if (authLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-slate-50 to-slate-100">
-        <p className="text-muted-foreground">Memuat...</p>
-      </div>
-    );
-  }
-
-  if (!user) {
-    return <Login />;
-  }
+  const handleOpenLoginModal = () => {
+    setIsLoginModalOpen(true);
+  };
 
   return (
     <main className="relative min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 py-12 px-4">
@@ -153,11 +203,20 @@ export default function Home() {
             <GithubIcon className="w-6 h-6" />
           </a>
           <div className="flex items-center gap-4">
-            <span className="text-sm text-muted-foreground">{user.email}</span>
-            <Button variant="outline" size="sm" onClick={signOut}>
-              <LogOut className="h-4 w-4 mr-2" />
-              Keluar
-            </Button>
+            {isLoggedIn ? (
+              <>
+                <span className="text-sm text-muted-foreground">{user?.email}</span>
+                <Button variant="outline" size="sm" onClick={signOut}>
+                  <LogOut className="h-4 w-4 mr-2" />
+                  Keluar
+                </Button>
+              </>
+            ) : (
+              <Button variant="outline" size="sm" onClick={handleOpenLoginModal}>
+                <User className="h-4 w-4 mr-2" />
+                Masuk
+              </Button>
+            )}
           </div>
         </div>
 
@@ -166,12 +225,12 @@ export default function Home() {
         <TrackingForm
           couriers={couriers}
           couriersLoading={couriersLoading}
-          trackingLoading={trackingLoading || checkWaybill.isPending}
+          trackingLoading={trackingLoading || (isLoggedIn && checkWaybill.isPending)}
           awbNumber={awbNumber}
           selectedCourier={selectedCourier}
           phoneNumber={phoneNumber}
           error={error}
-          isSaved={isCurrentWaybillSaved}
+          isSaved={isSaved}
           onAwbChange={setAwbNumber}
           onCourierChange={setSelectedCourier}
           onPhoneNumberChange={setPhoneNumber}
@@ -206,6 +265,11 @@ export default function Home() {
         onTogglePolling={handleTogglePolling}
         onSelect={handleSelectWaybill}
         couriers={couriers}
+      />
+
+      <LoginModal
+        isOpen={isLoginModalOpen}
+        onClose={() => setIsLoginModalOpen(false)}
       />
     </main>
   );

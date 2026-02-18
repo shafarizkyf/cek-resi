@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { X, Trash2, Edit2, Check, Clock, Calendar, Bell, BellOff, Loader2 } from "lucide-react";
-import { Waybill } from "@/hooks/useWaybills";
 import { Courier } from "@/types";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,12 +16,12 @@ import {
 interface SavedWaybillsSidebarProps {
   isOpen: boolean;
   onClose: () => void;
-  waybills: Waybill[];
+  waybills: any[];
   isLoading?: boolean;
-  onDelete: (id: number) => void;
-  onUpdate: (id: number, data: Partial<Waybill>) => void;
-  onTogglePolling: (id: number) => void;
-  onSelect: (waybill: Waybill) => void;
+  onDelete: (id: number | string) => void;
+  onUpdate: (id: number | string, data: any) => void;
+  onTogglePolling: (id: number | string) => void;
+  onSelect: (waybill: any) => void;
   couriers: Courier[];
 }
 
@@ -37,9 +36,9 @@ export function SavedWaybillsSidebar({
   onSelect,
   couriers,
 }: SavedWaybillsSidebarProps) {
-  const [editingId, setEditingId] = useState<number | null>(null);
-  const [editForm, setEditForm] = useState<Partial<Waybill>>({});
-  const [deleteConfirmId, setDeleteConfirmId] = useState<number | null>(null);
+  const [editingId, setEditingId] = useState<number | string | null>(null);
+  const [editForm, setEditForm] = useState<any>({});
+  const [deleteConfirmId, setDeleteConfirmId] = useState<number | string | null>(null);
 
   useEffect(() => {
     if (isOpen) {
@@ -69,21 +68,27 @@ export function SavedWaybillsSidebar({
     });
   };
 
-  const handleStartEdit = (waybill: Waybill) => {
+  const getPhoneNumber = (waybill: any) => waybill.phone_number || waybill.phoneNumber;
+  const getCreatedAt = (waybill: any) => waybill.created_at || waybill.createdAt;
+  const getLastCheckedAt = (waybill: any) => waybill.last_checked_at || waybill.lastCheckedAt;
+  const getPollingEnabled = (waybill: any) => waybill.polling_enabled ?? waybill.pollingEnabled ?? false;
+  const getHasUpdate = (waybill: any) => waybill.has_update ?? waybill.hasUpdate ?? false;
+
+  const handleStartEdit = (waybill: any) => {
     setEditingId(waybill.id);
     setEditForm({
       awb: waybill.awb,
       courier: waybill.courier,
-      phone_number: waybill.phone_number,
+      phoneNumber: getPhoneNumber(waybill),
     });
   };
 
-  const handleSaveEdit = (id: number) => {
+  const handleSaveEdit = (id: number | string) => {
     if (editForm.awb && editForm.courier) {
       onUpdate(id, {
         awb: editForm.awb,
         courier: editForm.courier,
-        phone_number: editForm.phone_number,
+        phoneNumber: editForm.phoneNumber,
       });
       setEditingId(null);
       setEditForm({});
@@ -95,7 +100,7 @@ export function SavedWaybillsSidebar({
     setEditForm({});
   };
 
-  const handleDelete = (id: number) => {
+  const handleDelete = (id: number | string) => {
     if (deleteConfirmId === id) {
       onDelete(id);
       setDeleteConfirmId(null);
@@ -109,10 +114,7 @@ export function SavedWaybillsSidebar({
 
   return (
     <>
-      <div
-        className="fixed inset-0 bg-black/30 z-40"
-        onClick={onClose}
-      />
+      <div className="fixed inset-0 bg-black/30 z-40" onClick={onClose} />
       <div className="fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-xl z-50 transform transition-transform duration-300 ease-in-out flex flex-col">
         <div className="flex items-center justify-between p-4 border-b">
           <h2 className="text-lg font-semibold">Riwayat Resi</h2>
@@ -139,7 +141,7 @@ export function SavedWaybillsSidebar({
                 <div
                   key={waybill.id}
                   className={`border rounded-lg p-3 bg-card ${
-                    waybill.has_update ? "border-green-500 border-2" : ""
+                    getHasUpdate(waybill) ? "border-green-500 border-2" : ""
                   }`}
                 >
                   {editingId === waybill.id ? (
@@ -147,14 +149,14 @@ export function SavedWaybillsSidebar({
                       <Input
                         value={editForm.awb || ""}
                         onChange={(e) =>
-                          setEditForm((prev) => ({ ...prev, awb: e.target.value }))
+                          setEditForm((prev: any) => ({ ...prev, awb: e.target.value }))
                         }
                         placeholder="Nomor Resi"
                       />
                       <Select
                         value={editForm.courier}
                         onValueChange={(value) =>
-                          setEditForm((prev) => ({ ...prev, courier: value }))
+                          setEditForm((prev: any) => ({ ...prev, courier: value }))
                         }
                       >
                         <SelectTrigger>
@@ -169,11 +171,11 @@ export function SavedWaybillsSidebar({
                         </SelectContent>
                       </Select>
                       <Input
-                        value={editForm.phone_number || ""}
+                        value={editForm.phoneNumber || ""}
                         onChange={(e) =>
-                          setEditForm((prev) => ({
+                          setEditForm((prev: any) => ({
                             ...prev,
-                            phone_number: e.target.value,
+                            phoneNumber: e.target.value,
                           }))
                         }
                         placeholder="No. Telepon (opsional)"
@@ -214,9 +216,9 @@ export function SavedWaybillsSidebar({
                             size="icon"
                             className="h-8 w-8"
                             onClick={() => onTogglePolling(waybill.id)}
-                            title={waybill.polling_enabled ? "Nonaktifkan notifikasi" : "Aktifkan notifikasi"}
+                            title={getPollingEnabled(waybill) ? "Nonaktifkan notifikasi" : "Aktifkan notifikasi"}
                           >
-                            {waybill.polling_enabled ? (
+                            {getPollingEnabled(waybill) ? (
                               <Bell className="h-4 w-4 text-green-500" />
                             ) : (
                               <BellOff className="h-4 w-4" />
@@ -247,21 +249,21 @@ export function SavedWaybillsSidebar({
                       <div className="mt-2 flex items-center gap-4 text-xs text-muted-foreground">
                         <span className="flex items-center gap-1">
                           <Calendar className="h-3 w-3" />
-                          {formatDate(waybill.created_at)}
+                          {formatDate(getCreatedAt(waybill))}
                         </span>
-                        {waybill.last_checked_at && (
+                        {getLastCheckedAt(waybill) && (
                           <span className="flex items-center gap-1">
                             <Clock className="h-3 w-3" />
-                            Terakhir: {formatDate(waybill.last_checked_at)}
+                            Terakhir: {formatDate(getLastCheckedAt(waybill))}
                           </span>
                         )}
                       </div>
-                      {waybill.phone_number && (
+                      {getPhoneNumber(waybill) && (
                         <p className="text-xs text-muted-foreground mt-1">
-                          Telp: {waybill.phone_number}
+                          Telp: {getPhoneNumber(waybill)}
                         </p>
                       )}
-                      {waybill.has_update && (
+                      {getHasUpdate(waybill) && (
                         <p className="text-xs text-green-600 font-medium mt-1">
                           Ada pembaruan status!
                         </p>
