@@ -1,8 +1,7 @@
-version: '3.8'
-
 services:
   nginx:
     build: ./nginx
+    container_name: cek_resi_nginx
     ports:
       - "8000:80"
     depends_on:
@@ -12,6 +11,7 @@ services:
 
   server:
     build: ./server
+    container_name: cek_resi_server
     env_file:
       - ./server/.env
     depends_on:
@@ -21,8 +21,9 @@ services:
 
   client:
     build: ./client
+    container_name: cek_resi_client
     env_file:
-      - ./client/.env
+      - ./client/.env.local
     environment:
       - PORT=3000
       - NEXT_PUBLIC_API_URL=/api
@@ -30,6 +31,7 @@ services:
 
   mysql:
     image: mysql:8.0
+    container_name: cek_resi_mysql
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootpassword}
       MYSQL_DATABASE: ${MYSQL_DATABASE:-cek_resi}
