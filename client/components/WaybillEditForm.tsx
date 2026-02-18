@@ -19,7 +19,11 @@ interface WaybillEditFormProps {
     phoneNumber: string;
   };
   couriers: Courier[];
-  onChange: (data: { awb: string; courier: string; phoneNumber: string }) => void;
+  onChange: (data: {
+    awb: string;
+    courier: string;
+    phoneNumber: string;
+  }) => void;
   onSave: () => void;
   onCancel: () => void;
 }
@@ -55,8 +59,10 @@ export function WaybillEditForm({
       </Select>
       <Input
         value={initialData.phoneNumber}
-        onChange={(e) => onChange({ ...initialData, phoneNumber: e.target.value })}
-        placeholder="No. Telepon (opsional)"
+        onChange={(e) =>
+          onChange({ ...initialData, phoneNumber: e.target.value })
+        }
+        placeholder="5 digit terakhir nomor telephon (opsional)"
       />
       <div className="flex gap-2">
         <Button size="sm" onClick={onSave} className="flex-1">
