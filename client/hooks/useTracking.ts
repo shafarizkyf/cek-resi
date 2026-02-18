@@ -14,7 +14,7 @@ export function useTracking(courier: string, awb: string, phoneNumber?: string) 
     queryKey: ['tracking', courier, awb, phoneNumber],
     queryFn: async () => {
       if (!courier || !awb) return null;
-      let url = `${getApiUrl('/api/track')}?courier=${courier}&awb=${awb}`;
+      let url = `${getApiUrl('/api/track')}?courier=${courier}&awb=${awb.trim()}`;
       if (phoneNumber) {
         url += `&number=${phoneNumber}`;
       }
