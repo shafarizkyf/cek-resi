@@ -1,6 +1,7 @@
 services:
   nginx:
     build: ./nginx
+    container_name: cek_resi_nginx
     ports:
       - "8000:80"
     depends_on:
@@ -10,15 +11,40 @@ services:
 
   server:
     build: ./server
+    container_name: cek_resi_server
     env_file:
       - ./server/.env
+    depends_on:
+      mysql:
+        condition: service_healthy
     restart: unless-stopped
 
   client:
     build: ./client
+    container_name: cek_resi_client
     env_file:
-      - ./client/.env
+      - ./client/.env.local
     environment:
       - PORT=3000
       - NEXT_PUBLIC_API_URL=/api
     restart: unless-stopped
+
+  mysql:
+    image: mysql:8.0
+    container_name: cek_resi_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootpassword}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-cek_resi}
+      MYSQL_USER: ${MYSQL_USER:-cek_resi}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-cek_resi_password}
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./mysql/init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  mysql_data:

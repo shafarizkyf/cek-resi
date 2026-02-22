@@ -7,3 +7,5 @@ dist/
 .env.production
 .DS_Store
 *.tsbuildinfo
+
+firebase-adminsdk.json

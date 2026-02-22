@@ -1,3 +1,24 @@
+export interface WaybillBase {
+  id: number | string;
+  awb: string;
+  courier: string;
+  phoneNumber?: string | null;
+  createdAt?: string | null;
+  lastCheckedAt?: string | null;
+}
+
+export interface Waybill extends WaybillBase {
+  userId: string;
+  pollingEnabled: boolean;
+  pollingIntervalHours: number;
+  lastStatus: string | null;
+  statusDetail: string | null;
+  hasUpdate: boolean;
+  updatedAt: string;
+}
+
+export interface LocalWaybill extends WaybillBase {}
+
 export interface Courier {
   code: string;
   description: string;
