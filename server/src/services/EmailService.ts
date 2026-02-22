@@ -28,6 +28,11 @@ export class EmailService {
   }
 
   static async send({ to, subject, html}: Send) {
+    if (!config.resend.apiKey) {
+      console.log('Email not sent: Resend API key is not configured');
+      return;
+    }
+
     const resend = new Resend(config.resend.apiKey);
     resend.emails.send({
       from: config.resend.from,
