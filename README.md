@@ -20,6 +20,7 @@ Lacak paket dari berbagai kurir Indonesia (JNE, J&T, SiCepat, TIKI, dll.) dalam 
 - **Frontend**: Next.js 16, React, TypeScript, Tailwind CSS, shadcn/ui, TanStack Query
 - **Backend**: Express.js, TypeScript
 - **Provider API**: BinderByte (utama), BiteShip (fallback)
+- **Email**: Resend (untuk notifikasi tracking)
 - **Deployment**: Docker, Docker Compose
 
 ## Prasyarat
@@ -28,6 +29,7 @@ Lacak paket dari berbagai kurir Indonesia (JNE, J&T, SiCepat, TIKI, dll.) dalam 
 - Docker & Docker Compose
 - BinderByte API key (https://binderbyte.com)
 - BiteShip API key (opsional, untuk fallback) (https://biteship.com)
+- Resend API key (opsional, untuk email notifikasi) (https://resend.com)
 
 ## Mulai Cepat
 
@@ -111,6 +113,8 @@ cek-resi/
 | `DEFAULT_PROVIDER` | Provider API utama | `binderbyte` |
 | `FALLBACK_PROVIDER` | Provider API fallback | `biteship` |
 | `NEXT_PUBLIC_API_URL` | URL server untuk client | `http://localhost:3001` |
+| `RESEND_API_KEY` | API key Resend (untuk email notifikasi) | - |
+| `RESEND_FROM_EMAIL` | Email pengirim | `onboarding@resend.dev` |
 
 ## Kurir yang Didukung
 
