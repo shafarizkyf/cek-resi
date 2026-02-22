@@ -21,6 +21,7 @@ COPY tsconfig.json ./
 RUN npm install --production
 
 COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/templates ./templates
 
 EXPOSE 3001
 
