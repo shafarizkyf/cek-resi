@@ -28,4 +28,8 @@ export const config = {
     default: process.env.DEFAULT_PROVIDER || 'binderbyte',
     fallback: process.env.FALLBACK_PROVIDER || 'biteship',
   },
+  resend: {
+    from: process.env.RESEND_EMAIL_FROM || 'onboarding@resend.dev',
+    apiKey: process.env.RESEND_API_KEY
+  }
 };

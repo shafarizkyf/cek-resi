@@ -8,6 +8,7 @@ import couriersRouter from './routes/couriers';
 import trackingRouter from './routes/tracking';
 import authRouter from './routes/auth';
 import waybillsRouter from './routes/waybills';
+import emailRouter from './routes/email';
 import { WaybillService } from './services/WaybillService';
 
 const app = express();
@@ -28,6 +29,7 @@ app.use('/api/couriers', couriersRouter);
 app.use('/api/track', trackingRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/waybills', waybillsRouter);
+app.use('/api/email', emailRouter);
 
 cron.schedule('0 * * * *', async () => {
   console.log('Running background polling...');

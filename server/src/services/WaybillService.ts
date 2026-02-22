@@ -1,5 +1,7 @@
 import { query } from '../config/db';
 import { TrackingService } from './TrackingService';
+import { EmailService } from './EmailService';
+import { TrackingData } from '../types';
 
 export interface Waybill {
   id: number;
@@ -58,6 +60,14 @@ export const WaybillService = {
     const waybills = await query<Waybill[]>(
       'SELECT * FROM waybills WHERE id = ? AND user_id = ?',
       [id, userId]
+    );
+    return waybills[0] || null;
+  },
+
+  async findByIdForEmail(id: number): Promise<Waybill | null> {
+    const waybills = await query<Waybill[]>(
+      'SELECT * FROM waybills WHERE id = ?',
+      [id]
     );
     return waybills[0] || null;
   },
@@ -204,14 +214,28 @@ export const WaybillService = {
 
   async getPollingEnabled(): Promise<Waybill[]> {
     return query<Waybill[]>(
-      'SELECT * FROM waybills WHERE polling_enabled = TRUE'
+      `SELECT w.* FROM waybills w 
+       WHERE w.polling_enabled = TRUE 
+       AND NOT EXISTS (
+         SELECT 1 FROM tracking_history th 
+         WHERE th.waybill_id = w.id 
+         AND th.status = 'DELIVERED'
+       )`
     );
+  },
+
+  async getUserEmail(userId: string): Promise<string | null> {
+    const users = await query<Array<{ email: string | null }>>(
+      'SELECT email FROM users WHERE id = ?',
+      [userId]
+    );
+    return users[0]?.email || null;
   },
 
   async processPolling(waybill: Waybill): Promise<void> {
     try {
       const trackingResult = await TrackingService.track(waybill.courier, waybill.awb, waybill.phone_number || undefined);
-      const tracking = trackingResult.data;
+      const tracking = trackingResult.data as TrackingData | undefined;
 
       const currentStatus = tracking?.data?.summary?.status || null;
       const statusDetail = tracking ? JSON.stringify(tracking.data) : null;
@@ -241,6 +265,23 @@ export const WaybillService = {
               historyEntry.date ? new Date(historyEntry.date) : null,
             ]
           );
+        }
+
+        const userEmail = await this.getUserEmail(waybill.user_id);
+        if (userEmail) {
+          const history = tracking.data.history.map(h => ({
+            date: h.date,
+            location: h.location,
+            description: h.desc,
+          }));
+
+          await EmailService.sendTrackingUpdate({
+            to: userEmail,
+            awb: waybill.awb,
+            courier: waybill.courier,
+            latestStatus: currentStatus!,
+            history,
+          });
         }
       }
     } catch (error) {
