@@ -31,5 +31,8 @@ export const config = {
   resend: {
     from: process.env.RESEND_EMAIL_FROM || 'onboarding@resend.dev',
     apiKey: process.env.RESEND_API_KEY
+  },
+  test: {
+    apiKey: process.env.TEST_API_KEY || ''
   }
 };

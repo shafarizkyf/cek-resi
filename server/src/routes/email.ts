@@ -2,10 +2,20 @@ import { Router, Request, Response } from 'express';
 import { EmailService } from '../services/EmailService';
 import { WaybillService } from '../services/WaybillService';
 import { TrackingService } from '../services/TrackingService';
+import { config } from '../config';
 
 const router = Router();
 
-router.post('/test', async (req: Request, res: Response) => {
+function testAuth(req: Request, res: Response, next: Function) {
+  const apiKey = req.headers['x-test-key'];
+  if (!apiKey || apiKey !== config.test.apiKey) {
+    res.status(401).json({ status: 401, message: 'Unauthorized' });
+    return;
+  }
+  next();
+}
+
+router.post('/test', testAuth, async (req: Request, res: Response) => {
   try {
     const { to, subject, html } = req.body;
 
@@ -26,7 +36,7 @@ router.post('/test', async (req: Request, res: Response) => {
   }
 });
 
-router.post('/test-waybill/:id', async (req: Request, res: Response) => {
+router.post('/test-waybill/:id', testAuth, async (req: Request, res: Response) => {
   try {
     const id = parseInt(String(req.params.id), 10);
     if (isNaN(id)) {

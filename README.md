@@ -115,6 +115,7 @@ cek-resi/
 | `NEXT_PUBLIC_API_URL` | URL server untuk client | `http://localhost:3001` |
 | `RESEND_API_KEY` | API key Resend (untuk email notifikasi) | - |
 | `RESEND_FROM_EMAIL` | Email pengirim | `onboarding@resend.dev` |
+| `TEST_API_KEY` | API key untuk akses endpoint test email | - |
 
 ## Kurir yang Didukung
 
