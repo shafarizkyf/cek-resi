@@ -204,7 +204,13 @@ export const WaybillService = {
 
   async getPollingEnabled(): Promise<Waybill[]> {
     return query<Waybill[]>(
-      'SELECT * FROM waybills WHERE polling_enabled = TRUE'
+      `SELECT w.* FROM waybills w 
+       WHERE w.polling_enabled = TRUE 
+       AND NOT EXISTS (
+         SELECT 1 FROM tracking_history th 
+         WHERE th.waybill_id = w.id 
+         AND th.status = 'DELIVERED'
+       )`
     );
   },
 
