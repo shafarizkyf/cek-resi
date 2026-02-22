@@ -23,7 +23,7 @@ services:
     build: ./client
     container_name: cek_resi_client
     env_file:
-      - ./client/.env.local
+      - ./client/.env
     environment:
       - PORT=3000
       - NEXT_PUBLIC_API_URL=/api
