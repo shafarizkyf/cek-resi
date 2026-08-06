@@ -17,9 +17,9 @@ export class BinderByteService {
       } as ApiError;
     }
 
-    const data = (await response.json()) as Record<string, any>;
+    const data = (await response.json()) as {data: {name: string, code:string}[]};
 
-    return (data as any[]).map(item => ({ code: item.code, description: item.name }))
+    return data.data.map(item => ({ code: item.code, description: item.name }))
   }
 
   static async fetchTracking(courier: string, awb: string, phoneNumber?: string): Promise<TrackingData> {
