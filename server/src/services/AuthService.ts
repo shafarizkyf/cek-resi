@@ -1,10 +1,11 @@
-import admin from 'firebase-admin';
+import { initializeApp, getApps, cert } from 'firebase-admin/app';
+import { getAuth } from 'firebase-admin/auth';
 import { config } from '../config';
 import { query } from '../config/db';
 
-if (!admin.apps.length) {
-  admin.initializeApp({
-    credential: admin.credential.cert({
+if (getApps().length === 0) {
+  initializeApp({
+    credential: cert({
       projectId: config.firebase.projectId,
       privateKey: config.firebase.privateKey,
       clientEmail: config.firebase.clientEmail,
@@ -20,7 +21,7 @@ export interface UserRecord {
 }
 
 export async function verifyToken(idToken: string): Promise<UserRecord> {
-  const decodedToken = await admin.auth().verifyIdToken(idToken);
+  const decodedToken = await getAuth().verifyIdToken(idToken);
   return {
     uid: decodedToken.uid,
     email: decodedToken.email || null,
